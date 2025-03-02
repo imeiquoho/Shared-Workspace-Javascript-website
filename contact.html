@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Header: Same as Home Page -->
+  <header>
+    <nav>
+      <div class="logo"><img src="images/logo.png" alt="Coworking Logo"></div>
+      <div class="menu-toggle">☰</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="search-workspaces.html">Search Workspaces</a></li>
+        <li><a href="property-listing.html">List Property</a></li>
+        <li><a href="workspace-listing.html">List Workspace</a></li>
+        <li><a href="contact.html" class="bold">Contact</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+      </ul>
+      <button id="dark-mode-toggle">🌙</button>
+    </nav>
+  </header>
+
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <h2>Contact Us</h2>
+
+    <!-- Contact Form -->
+    <form id="contactForm" class="contact-form">
+      <div class="form-group">
+        <label for="contactName">Name</label>
+        <input type="text" id="contactName" required />
+      </div>
+
+      <div class="form-group">
+        <label for="contactEmail">Email</label>
+        <input type="email" id="contactEmail" required />
+      </div>
+
+      <div class="form-group">
+        <label for="contactPhone">Phone</label>
+        <input type="tel" id="contactPhone" required />
+      </div>
+
+      <div class="form-group">
+        <label for="contactMessage">Message</label>
+        <textarea id="contactMessage" rows="4" required></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Submit</button>
+    </form>
+
+    <!-- Company Contact Information -->
+    <div class="company-info">
+      <h3>Our Office</h3>
+      <p>123 Main Street, Suite 456</p>
+      <p>+1 (234) 567-8900</p>
+      <p>info@coworkingspaces.com</p>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

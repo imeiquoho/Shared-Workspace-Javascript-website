@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modify Listings</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo"><img src="images/logo.png" alt="Coworking Logo"></div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Minimal content so it's no longer blank -->
+  <section class="modify-section">
+    <h2>Modify Your Properties & Workspaces</h2>
+    <p>Select an existing listing to edit or update details.</p>
+
+    <div id="modifyContainer">
+      <!-- Example placeholders: property/workspace items added by script.js -->
+      <ul id="propertyList"></ul>
+      <ul id="workspaceList"></ul>
+
+      <!-- Example form for editing a property or workspace once selected -->
+      <form id="modifyForm" class="modify-form" style="display: none;">
+        <label for="modifyField">Edit Field:</label>
+        <input type="text" id="modifyField"/>
+        <button type="submit" class="btn-submit">Save Changes</button>
+      </form>
+      <p id="modifyMsg"></p>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
