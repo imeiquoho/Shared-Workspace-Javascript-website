@@ -7,14 +7,18 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Function to read JSON data
+const fs = require('fs'); // Add this line
+const path = require('path'); // Ensure this is included
+
 const readDataFile = (filename) => {
     try {
-        return JSON.parse(fs.readFileSync(filename, 'utf8'));
+        return JSON.parse(fs.readFileSync(path.join(__dirname, filename), 'utf8'));
     } catch (err) {
         console.error("Error reading file:", err);
         return [];
     }
 };
+// Middleware to parse JSON data
 
 // Root endpoint
 app.get('/', (req, res) => {
