@@ -1,33 +1,20 @@
-// ==============================
-// express-server.js (Workspace API Server)
-// ==============================
 const express = require('express');
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const fs = require('fs');
-const path = require('path');
-
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI;
-
-// Connect to MongoDB
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("Connected to MongoDB"))
-    .catch(err => console.error("MongoDB connection error:", err));
 
 app.use(express.json());
 
 // Function to read JSON data
-function readDataFile(filename) {
+const readDataFile = (filename) => {
     try {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, filename), 'utf-8'));
+        return JSON.parse(fs.readFileSync(filename, 'utf8'));
     } catch (err) {
-        console.error(`Error reading ${filename}:`, err);
+        console.error("Error reading file:", err);
         return [];
     }
-}
+};
 
 // Root endpoint
 app.get('/', (req, res) => {

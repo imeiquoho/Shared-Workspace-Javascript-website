@@ -1,4 +1,4 @@
-[
+const workspaceData = [
     {
         "workspace_id": 101,
         "name": "Downtown Co-Working Space",
@@ -23,4 +23,5 @@
         "availability": "Available",
         "amenities": ["Projector", "Event Space", "Cafeteria"]
     }
-]
+];
+writeDataFile('data.json', workspaceData);
