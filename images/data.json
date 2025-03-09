@@ -1,0 +1,26 @@
+[
+    {
+        "workspace_id": 101,
+        "name": "Downtown Co-Working Space",
+        "location": "Calgary",
+        "capacity": 20,
+        "availability": "Available",
+        "amenities": ["WiFi", "Meeting Rooms", "Parking"]
+    },
+    {
+        "workspace_id": 102,
+        "name": "Tech Hub Office",
+        "location": "Toronto",
+        "capacity": 50,
+        "availability": "Fully Booked",
+        "amenities": ["WiFi", "Coffee", "24/7 Access"]
+    },
+    {
+        "workspace_id": 103,
+        "name": "Startup Innovation Center",
+        "location": "Vancouver",
+        "capacity": 35,
+        "availability": "Available",
+        "amenities": ["Projector", "Event Space", "Cafeteria"]
+    }
+]

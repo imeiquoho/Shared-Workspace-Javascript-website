@@ -1,0 +1,1 @@
+fs.writeFileSync(path.join(__dirname, 'example.txt'), "Welcome to the Shared Workspace Web App! Here you can book and manage co-working spaces.");
