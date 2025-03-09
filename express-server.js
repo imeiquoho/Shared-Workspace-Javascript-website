@@ -1,39 +1,40 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const dotenv = require('dotenv');
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware to parse JSON
 app.use(express.json());
 
 // Function to read JSON data
-const fs = require('fs'); // Add this line
-const path = require('path'); // Ensure this is included
-
-const readDataFile = (filename) => {
+const readDataFile = () => {
     try {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, filename), 'utf8'));
+        const dataPath = path.join(__dirname, 'data.json'); // Ensure correct path
+        return JSON.parse(fs.readFileSync(dataPath, 'utf8'));
     } catch (err) {
-        console.error("Error reading file:", err);
+        console.error("Error reading data.json:", err);
         return [];
     }
 };
-// Middleware to parse JSON data
 
-// Root endpoint
+// Root Endpoint
 app.get('/', (req, res) => {
     res.send("Welcome to the Shared Workspace Web App API!");
 });
 
 // Get all workspaces
 app.get('/workspaces', (req, res) => {
-    const workspaces = readDataFile('data.json');
+    const workspaces = readDataFile();
     res.json(workspaces);
 });
 
 // Get a specific workspace by ID
 app.get('/workspaces/:id', (req, res) => {
-    const workspaces = readDataFile('data.json');
+    const workspaces = readDataFile();
     const workspace = workspaces.find(ws => ws.workspace_id === parseInt(req.params.id));
     if (workspace) {
         res.json(workspace);
@@ -42,6 +43,7 @@ app.get('/workspaces/:id', (req, res) => {
     }
 });
 
+// Start Server
 app.listen(PORT, () => {
     console.log(`Express server running on http://127.0.0.1:${PORT}`);
 });
