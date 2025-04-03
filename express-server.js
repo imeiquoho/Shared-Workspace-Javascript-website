@@ -1,49 +1,110 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const dotenv = require('dotenv');
+// express-server.js
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware to parse JSON
+app.use(cors());
 app.use(express.json());
 
-// Function to read JSON data
-const readDataFile = () => {
-    try {
-        const dataPath = path.join(__dirname, 'data.json'); // Ensure correct path
-        return JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-    } catch (err) {
-        console.error("Error reading data.json:", err);
-        return [];
-    }
-};
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI;
 
-// Root Endpoint
-app.get('/', (req, res) => {
-    res.send("Welcome to the Shared Workspace Web App API!");
+// ===== Connect to MongoDB =====
+const client = new MongoClient(MONGO_URI, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
 });
 
-// Get all workspaces
-app.get('/workspaces', (req, res) => {
-    const workspaces = readDataFile();
+let workspaceCollection;
+
+async function connectMongoDB() {
+  try {
+    await client.connect();
+    const db = client.db("shared_workspace_db");
+    workspaceCollection = db.collection("workspaces");
+    console.log("✅ MongoDB connected successfully.");
+  } catch (error) {
+    console.error("❌ MongoDB connection failed:", error);
+  }
+}
+connectMongoDB();
+
+// ===== Routes =====
+
+// Default route
+app.get("/", (req, res) => {
+  res.send("Welcome to the Shared Workspace Web App API with MongoDB!");
+});
+
+// GET all workspaces
+app.get("/workspaces", async (req, res) => {
+  try {
+    const workspaces = await workspaceCollection.find().toArray();
     res.json(workspaces);
+  } catch (err) {
+    res.status(500).send("Error fetching workspaces.");
+  }
 });
 
-// Get a specific workspace by ID
-app.get('/workspaces/:id', (req, res) => {
-    const workspaces = readDataFile();
-    const workspace = workspaces.find(ws => ws.workspace_id === parseInt(req.params.id));
-    if (workspace) {
-        res.json(workspace);
-    } else {
-        res.status(404).send("Workspace not found.");
+// POST a new workspace
+app.post("/workspaces", async (req, res) => {
+  const newWorkspace = req.body;
+  try {
+    const result = await workspaceCollection.insertOne(newWorkspace);
+    res.status(201).json(result);
+  } catch (err) {
+    res.status(500).send("Error adding workspace.");
+  }
+});
+
+// DELETE a workspace by ID
+app.delete("/workspaces/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await workspaceCollection.deleteOne({ _id: new ObjectId(id) });
+    res.json(result);
+  } catch (err) {
+    res.status(500).send("Error deleting workspace.");
+  }
+});
+
+app.put("/workspaces/:id", async (req, res) => {
+  const id = req.params.id;
+  const updatedWorkspace = req.body;
+
+  console.log("👉 Received update request for ID:", id);
+  console.log("📝 New data:", updatedWorkspace);
+
+  try {
+    const result = await workspaceCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updatedWorkspace }
+    );
+
+    console.log("🔧 MongoDB Update Result:", result);
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({
+        error: "Workspace not found or no change made",
+        attemptedId: id,
+        matchedCount: result.matchedCount,
+      });
     }
+
+    res.json({ message: "✅ Workspace updated successfully" });
+  } catch (err) {
+    console.error("❌ Update Error:", err.message);
+    res.status(500).json({ error: "Failed to update workspace", details: err.message });
+  }
 });
 
-// Start Server
+// Start server
 app.listen(PORT, () => {
-    console.log(`Express server running on http://127.0.0.1:${PORT}`);
+  console.log(`Server running at http://127.0.0.1:${PORT}`);
 });
