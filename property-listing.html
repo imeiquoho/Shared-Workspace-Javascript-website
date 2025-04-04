@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>List Property (MVP)</title>
-  <script src="workspaceData.js"></script>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
     <nav>
-      <div class="logo"><img src="images/logo.png" alt="Coworking Logo"></div>
+      <div class="logo"><img src="images/logo.png" alt="Coworking Logo" /></div>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
+        <li id="userGreeting"></li> <!-- 👤 Dynamic greeting -->
+        <li><a href="#" onclick="logout()">Logout</a></li> <!-- 🚪 Logout -->
       </ul>
     </nav>
   </header>
@@ -23,17 +24,17 @@
     <form id="propertyForm" class="property-form">
       <div class="form-group">
         <label for="address">Address</label>
-        <input type="text" id="address" required>
+        <input type="text" id="address" required />
       </div>
 
       <div class="form-group">
         <label for="neighborhood">Neighborhood</label>
-        <input type="text" id="neighborhood" required>
+        <input type="text" id="neighborhood" required />
       </div>
 
       <div class="form-group">
         <label for="squareFeet">Square Feet</label>
-        <input type="number" id="squareFeet" required>
+        <input type="number" id="squareFeet" required />
       </div>
 
       <div class="form-group">
@@ -59,6 +60,11 @@
     <p id="propertyMsg"></p>
   </section>
 
+  <script src="workspaceData.js"></script>
   <script src="script.js"></script>
+  <script>
+    protectPage();         // 🔒 Block access if not logged in
+    showUserGreeting();    // 👋 Show "Hi, Ime"
+  </script>
 </body>
 </html>

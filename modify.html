@@ -1,42 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Modify Listings</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
+  <!-- ✅ Header with Navigation -->
   <header>
     <nav>
-      <div class="logo"><img src="images/logo.png" alt="Coworking Logo"></div>
+      <div class="logo"><img src="images/logo.png" alt="Coworking Logo" /></div>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
+        <li><a href="property-listing.html">List Property</a></li>
+        <li><a href="workspace-listing.html">List Workspace</a></li>
+        <li><a href="search-workspaces.html">Search Workspaces</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+        <li id="userGreeting"></li>
       </ul>
     </nav>
   </header>
 
-  <!-- Minimal content so it's no longer blank -->
+  <!-- ✏️ Modify Listings Section -->
   <section class="modify-section">
     <h2>Modify Your Properties & Workspaces</h2>
-    <p>Select an existing listing to edit or update details.</p>
+    <p>Select a listing to edit its details.</p>
 
     <div id="modifyContainer">
-      <!-- Example placeholders: property/workspace items added by script.js -->
+      <!-- Properties and Workspaces listed here -->
       <ul id="propertyList"></ul>
       <ul id="workspaceList"></ul>
 
-      <!-- Example form for editing a property or workspace once selected -->
+      <!-- Edit Form -->
       <form id="modifyForm" class="modify-form" style="display: none;">
         <label for="modifyField">Edit Field:</label>
-        <input type="text" id="modifyField"/>
+        <input type="text" id="modifyField" required />
         <button type="submit" class="btn-submit">Save Changes</button>
       </form>
+
       <p id="modifyMsg"></p>
     </div>
   </section>
 
+  <!-- Scripts -->
   <script src="script.js"></script>
+  <script>
+    protectPage();         // ✅ Block unauthenticated users
+    showUserGreeting();    // ✅ Show greeting like “Hi, Ime”
+  </script>
 </body>
 </html>

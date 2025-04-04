@@ -1,36 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .about-section {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 40px;
+      background: #ffffffdd;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    .about-section h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .about-section p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      background: #f5f5f5;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <div class="logo"><img src="images/logo.png" alt="Coworking Logo"></div>
-            <div class="menu-toggle">☰</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+  <!-- ✅ Header with Navigation -->
+  <header>
+    <nav>
+      <div class="logo"><img src="images/logo.png" alt="Coworking Logo" /></div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+        <li id="userGreeting"></li>
+      </ul>
+    </nav>
+  </header>
 
-    <section class="about">
-        <h2>About Our Coworking Space</h2>
-        <p>We provide a comfortable and professional workspace environment for freelancers, startups, and enterprises.</p>
-    </section>
+  <!-- 🌟 About Section -->
+  <section class="about-section">
+    <h2>About Our Coworking Space</h2>
+    <p>At <strong>Shared Workspace</strong>, we provide flexible, collaborative environments for freelancers, entrepreneurs, and growing teams.</p>
+    <p>Our spaces are designed to inspire creativity and productivity, offering all the amenities you need to do your best work.</p>
+    <p>Whether you're looking for a quiet private office or a buzzing open desk, we’ve got you covered!</p>
+  </section>
 
-    <footer>
-        <p>&copy; 2025 Coworking Spaces. All Rights Reserved.</p>
-    </footer>
+  <footer>
+    <p>&copy; 2025 Shared Workspace. All Rights Reserved.</p>
+  </footer>
 
-    <script src="script.js"></script>
+  <script src="script.js"></script>
+  <script>
+    protectPage();        // 🛡️ Protect the page
+    showUserGreeting();   // 👋 Show "Hi, Ime"
+  </script>
 </body>
 </html>

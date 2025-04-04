@@ -1,393 +1,495 @@
 /* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: url('images/coworking-1.jpg') no-repeat center center fixed;
-    background-size: cover;
-    transition: background 0.3s, color 0.3s;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url('images/coworking-1.jpg') no-repeat center center fixed;
+  background-size: cover;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* Navigation */
 .nav-links {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px;
-    border-radius: 10px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 15px;
+  border-radius: 10px;
 }
 
 .nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 10px 15px;
-    transition: 0.3s;
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 15px;
+  transition: 0.3s;
 }
 
 .nav-links a:hover {
-    background: #ff5722;
-    border-radius: 5px;
+  background: #ff5722;
+  border-radius: 5px;
 }
 
 /* Hero Section */
 .hero {
-    height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
 }
 
 .hero h1 {
-    font-size: 2.5rem;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 /* Sign-Up Section */
 .signup-section {
-    background: white;
-    padding: 50px 20px;
-    text-align: center;
+  background: white;
+  padding: 50px 20px;
+  text-align: center;
 }
 
 .signup-form {
-    max-width: 500px;
-    margin: 0 auto;
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
-    margin-bottom: 15px;
-    text-align: left;
+  margin-bottom: 15px;
+  text-align: left;
 }
 
 .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .form-group input,
 .form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f0f0f0;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f0f0f0;
 }
 
 /* Buttons */
 .btn {
-    display: inline-block;
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 5px;
-    margin-top: 20px;
+  display: inline-block;
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 20px;
 }
 
 .btn:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .btn-submit {
-    background: #ff5722;
-    color: white;
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-    width: 100%;
+  background: #ff5722;
+  color: white;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  width: 100%;
 }
 
 .btn-submit:hover {
-    background: #e64a19;
+  background: #e64a19;
 }
 /* -------------- SEARCH WORKSPACES PAGE -------------- */
 
 /* Search Section */
 .search-section {
-    background: white;  /* White panel for search form */
-    padding: 40px 20px;
-    text-align: center;
-  }
-  
-  .search-form {
-    display: grid;
-    max-width: 600px;
-    margin: 0 auto;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  /* Form Groups */
-  .form-group {
-    text-align: left;
-  }
-  
-  .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  /* Search Button */
-  .btn-submit {
-    grid-column: 1/-1;  /* Spans entire width when form is in grid */
-    background: #ff5722;
-    color: white;
-    border: none;
-    padding: 12px 0;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  .btn-submit:hover {
-    background: #e64a19;
-  }
-  
-  /* Results Section */
-  .results-section {
-    padding: 40px 20px;
-    background: #ffffff; /* Keep results on white background */
-  }
-  
-  .results-section h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Workspace Cards */
-  .workspace-card {
-    display: flex;
-    align-items: center;
-    background: #f2f2f2;
-    margin: 0 auto 20px auto;
-    max-width: 600px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-  }
-  
-  .workspace-card img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-  }
-  
-  .workspace-info {
-    padding: 15px;
-  }
-  
-  .workspace-info h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-  }
-  
-  .workspace-info p {
-    margin: 0 0 10px 0;
-  }
-  
-  .btn-view {
-    background: #007BFF;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  .btn-view:hover {
-    background: #0056b3;
-  }
-  /* -------- PROPERTY LISTING PAGE -------- */
+  background: white;  /* White panel for search form */
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.search-form {
+  display: grid;
+  max-width: 600px;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Form Groups */
+.form-group {
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Search Button */
+.btn-submit {
+  grid-column: 1/-1;  /* Spans entire width when form is in grid */
+  background: #ff5722;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.btn-submit:hover {
+  background: #e64a19;
+}
+
+/* Results Section */
+.results-section {
+  padding: 40px 20px;
+  background: #ffffff; /* Keep results on white background */
+}
+
+.results-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Workspace Cards */
+.workspace-card {
+  display: flex;
+  align-items: center;
+  background: #f2f2f2;
+  margin: 0 auto 20px auto;
+  max-width: 600px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.workspace-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.workspace-info {
+  padding: 15px;
+}
+
+.workspace-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.workspace-info p {
+  margin: 0 0 10px 0;
+}
+
+.btn-view {
+  background: #007BFF;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.btn-view:hover {
+  background: #0056b3;
+}
+/* -------- PROPERTY LISTING PAGE -------- */
 .property-section {
-    background: white;
-    padding: 40px 20px;
-    text-align: center;
-  }
-  
-  .property-form {
-    max-width: 600px;
-    margin: 0 auto;
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: left;
-  }
-  
-  .property-form .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .property-form .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .property-form .form-group input,
-  .property-form .form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-  }
-  
-  /* Upload Button Section */
-  .upload-section {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .btn-submit {
-    width: 100%;
-    background: #ff5722;
-    color: white;
-    border: none;
-    padding: 12px 0;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  .btn-submit:hover {
-    background: #e64a19;
-  }
-  /* ---------- WORKSPACE LISTING PAGE ---------- */
+  background: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.property-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.property-form .form-group {
+  margin-bottom: 15px;
+}
+
+.property-form .form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.property-form .form-group input,
+.property-form .form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+/* Upload Button Section */
+.upload-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-submit {
+  width: 100%;
+  background: #ff5722;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.btn-submit:hover {
+  background: #e64a19;
+}
+/* ---------- WORKSPACE LISTING PAGE ---------- */
 
 .workspace-section {
-    background: white;
-    padding: 40px 20px;
-    text-align: center;
-  }
-  
-  .workspace-form {
-    max-width: 600px;
-    margin: 0 auto;
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: left;
-  }
-  
-  .workspace-form .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .workspace-form .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .workspace-form .form-group input,
-  .workspace-form .form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-  }
-  
-  /* Upload Button Section */
-  .upload-section {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Submit Button */
-  .btn-submit {
-    width: 100%;
-    background: #ff5722;
-    color: white;
-    border: none;
-    padding: 12px 0;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  .btn-submit:hover {
-    background: #e64a19;
-  }
-  /* -------- CONTACT PAGE -------- */
+  background: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.workspace-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.workspace-form .form-group {
+  margin-bottom: 15px;
+}
+
+.workspace-form .form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.workspace-form .form-group input,
+.workspace-form .form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+/* Upload Button Section */
+.upload-section {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Submit Button */
+.btn-submit {
+  width: 100%;
+  background: #ff5722;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.btn-submit:hover {
+  background: #e64a19;
+}
+/* -------- CONTACT PAGE -------- */
 .contact-section {
-    background: white;
-    padding: 40px 20px;
-    text-align: center;
-  }
-  
-  .contact-form {
-    max-width: 500px;
-    margin: 0 auto 30px auto;
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: left;
-  }
-  
-  .contact-form .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .contact-form .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .contact-form .form-group input,
-  .contact-form .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-  }
-  
-  .company-info {
-    background: #f2f2f2;
-    padding: 20px;
-    border-radius: 10px;
-    display: inline-block;
-    text-align: left;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-  
-  .company-info h3 {
-    margin-top: 0;
-  }
-  
+  background: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.contact-form {
+  max-width: 500px;
+  margin: 0 auto 30px auto;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.contact-form .form-group {
+  margin-bottom: 15px;
+}
+
+.contact-form .form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.contact-form .form-group input,
+.contact-form .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+.company-info {
+  background: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.company-info h3 {
+  margin-top: 0;
+}
+.review-section {
+  margin-top: 40px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.review-section h3 {
+  margin-bottom: 10px;
+}
+
+#review-list li {
+  margin-bottom: 12px;
+  background: #fff;
+  padding: 10px;
+  border-left: 4px solid #4caf50;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+/* ⭐ Star Rating Display */
+.stars {
+color: gold;
+font-size: 1.2rem;
+line-height: 1.4;
+display: inline-block;
+margin: 0.25rem 0;
+}
+.stars:hover {
+transform: scale(1.05);
+transition: transform 0.2s ease-in-out;
+}
+/* 🌟 Review Section Styling */
+.review-section {
+margin: 2rem auto;
+padding: 1.5rem;
+max-width: 700px;
+background: #fff;
+border-radius: 16px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.review-section h3 {
+font-size: 1.5rem;
+margin-bottom: 1rem;
+color: #333;
+}
+
+/* ⭐ Review List */
+#review-list {
+list-style: none;
+padding: 0;
+}
+
+#review-list li {
+background: #f9f9f9;
+border: 1px solid #ddd;
+margin-bottom: 1rem;
+padding: 1rem;
+border-radius: 10px;
+}
+
+.stars {
+color: #f5b301;
+font-size: 1.2rem;
+}
+
+/* 📝 Review Form */
+#reviewForm {
+display: flex;
+flex-wrap: wrap;
+gap: 0.75rem;
+margin-top: 1rem;
+}
+
+#reviewForm input,
+#reviewForm select,
+#reviewForm textarea {
+padding: 0.5rem;
+font-size: 1rem;
+flex: 1 1 30%;
+border-radius: 8px;
+border: 1px solid #ccc;
+}
+
+#reviewForm textarea {
+flex: 1 1 100%;
+height: 80px;
+resize: vertical;
+}
+
+#reviewForm button {
+padding: 0.5rem 1rem;
+background-color: #ff5722;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-weight: bold;
+}
+
+#reviewForm button:hover {
+background-color: #e64a19;
+}
