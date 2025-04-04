@@ -132,3 +132,35 @@ function renderModifiableItems() {
     this.reset();
   });
 }
+// 🔐 Redirect if not logged in
+function protectPage() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    alert("⚠️ Please login to access this page.");
+    window.location.href = "login.html";
+  }
+}
+
+// 👋 Show greeting in navbar
+function showUserGreeting() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const nav = document.querySelector(".nav-links");
+
+  if (user && nav) {
+    const greeting = document.createElement("li");
+    greeting.textContent = `Hi, ${user.name}`;
+    greeting.style.fontWeight = "bold";
+
+    const logout = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.textContent = "Logout";
+    btn.onclick = () => {
+      localStorage.removeItem("user");
+      window.location.href = "index.html";
+    };
+    logout.appendChild(btn);
+
+    nav.appendChild(greeting);
+    nav.appendChild(logout);
+  }
+}

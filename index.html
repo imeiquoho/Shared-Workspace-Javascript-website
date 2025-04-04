@@ -15,14 +15,15 @@
       <div class="logo"><img src="images/logo.png" alt="Coworking Logo"></div>
       <div class="menu-toggle">☰</div>
       <ul class="nav-links">
-        <!-- The original layout is preserved. We simply restored missing links. -->
         <li><a href="#home">Home</a></li>
         <li><a href="search-workspaces.html">Search Workspaces</a></li>
         <li><a href="property-listing.html">List Property</a></li>
         <li><a href="workspace-listing.html">List Workspace</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="signup.html">Sign Up</a></li>
-        <li><a href="signin.html">Sign In</a></li>
+        <li id="userGreeting"></li>
+        <li id="signupLink"><a href="signup.html">Sign Up</a></li>
+        <li id="signinLink"><a href="signin.html">Sign In</a></li>
+        <li id="logoutLink" style="display: none;"><a href="#" onclick="logoutUser()">Logout</a></li>
         <li><a href="modify.html">Modify Listings</a></li>
       </ul>
       <button id="dark-mode-toggle">🌙</button>
@@ -38,5 +39,19 @@
     </div>
   </section>
 
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      document.getElementById("userGreeting").innerHTML = `<span style="color:white">Hi, ${user.name}</span>`;
+      document.getElementById("logoutLink").style.display = "inline";
+      document.getElementById("signupLink").style.display = "none";
+      document.getElementById("signinLink").style.display = "none";
+    }
+
+    function logoutUser() {
+      localStorage.removeItem("user");
+      window.location.reload();
+    }
+  </script>
 </body>
 </html>

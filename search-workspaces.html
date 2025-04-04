@@ -4,27 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Search Workspaces</title>
-  <script src="workspaceData.js"></script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <!-- Navigation (Optional: Minimal nav so you can return to Home) -->
+  <!-- ✅ Navigation -->
   <header>
     <nav>
       <div class="logo"><img src="images/logo.png" alt="Coworking Logo" /></div>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <!-- Keep other links as needed -->
+        <li><a href="property-listing.html">List Property</a></li>
+        <li><a href="workspace-listing.html">List Workspace</a></li>
+        <li id="userGreeting"></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- Search Section -->
+  <!-- 🔍 Search Filters -->
   <section class="search-section">
     <h2>Search Workspaces</h2>
 
-    <!-- Search Filters Form -->
     <form id="searchForm" class="search-form">
       <div class="form-group">
         <label for="address">Address</label>
@@ -70,7 +71,7 @@
       </div>
 
       <div class="form-group">
-        <label for="price">Price</label>
+        <label for="price">Max Price</label>
         <input type="number" id="price" placeholder="Max price" />
       </div>
 
@@ -78,12 +79,11 @@
     </form>
   </section>
 
-  <!-- Results Section -->
+  <!-- 🔽 Search Results -->
   <section id="results" class="results-section">
     <h2>Search Results</h2>
-    <!-- Workspace Cards will be inserted here dynamically or can be static placeholders below -->
 
-    <!-- Example Card 1 -->
+    <!-- Example Cards (static for now, can be dynamically added later) -->
     <div class="workspace-card">
       <img src="images/Private Office.jpg" alt="Workspace" />
       <div class="workspace-info">
@@ -93,7 +93,6 @@
       </div>
     </div>
 
-    <!-- Example Card 2 -->
     <div class="workspace-card">
       <img src="images/Open Office II.jpg" alt="Workspace" />
       <div class="workspace-info">
@@ -102,9 +101,14 @@
         <button class="btn-view">View Details</button>
       </div>
     </div>
-
-    <!-- Add more cards as needed -->
   </section>
 
+  <!-- ✅ Scripts -->
+  <script src="workspaceData.js"></script>
+  <script src="script.js"></script>
+  <script>
+    protectPage();         // ✅ Protects page
+    showUserGreeting();    // ✅ Shows "Hi, User"
+  </script>
 </body>
 </html>

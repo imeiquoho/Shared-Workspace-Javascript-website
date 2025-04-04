@@ -1,34 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .gallery {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .gallery h2 {
+      margin-bottom: 1rem;
+    }
+
+    .gallery-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 20px;
+    }
+
+    .gallery-container figure {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .gallery-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease-in-out;
+    }
+
+    .gallery-container figure:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-container figcaption {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      padding: 10px;
+      font-size: 1rem;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .gallery-container figure:hover figcaption {
+      opacity: 1;
+    }
+
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      display: none;
+      z-index: 1000;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 8px;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="gallery.html" class="active">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+        <li id="userGreeting"></li>
+      </ul>
+    </nav>
+  </header>
 
-    <section class="gallery">
-        <h2>Our Gallery</h2>
-        <div class="gallery-container">
-            <img src="images/coworking-1.jpg" alt="Office Space">
-            <img src="images/coworking-2.jpg" alt="Shared Desk">
-            <img src="images/coworking-3.jpg" alt="Meeting Room">
-        </div>
-    </section>
+  <section class="gallery">
+    <h2>Our Gallery</h2>
+    <div class="gallery-container">
+      <figure>
+        <img src="images/coworking-1.jpg" alt="Office Space" onclick="openLightbox(this.src)">
+        <figcaption>Modern Office Space</figcaption>
+      </figure>
+      <figure>
+        <img src="images/coworking-2.jpg" alt="Shared Desk" onclick="openLightbox(this.src)">
+        <figcaption>Open Shared Desks</figcaption>
+      </figure>
+      <figure>
+        <img src="images/coworking-3.jpg" alt="Meeting Room" onclick="openLightbox(this.src)">
+        <figcaption>Spacious Meeting Room</figcaption>
+      </figure>
+    </div>
+  </section>
 
-    <script src="script.js"></script>
+  <div class="lightbox" id="lightbox">
+    <img src="" alt="Enlarged image" id="lightbox-img">
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    function openLightbox(src) {
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+      lightboxImg.src = src;
+      lightbox.classList.add("active");
+    }
+
+    document.getElementById("lightbox").addEventListener("click", function () {
+      this.classList.remove("active");
+    });
+
+    protectPage();
+    showUserGreeting();
+  </script>
 </body>
 </html>

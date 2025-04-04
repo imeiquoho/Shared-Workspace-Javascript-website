@@ -20,25 +20,25 @@
   <section class="signup-section">
     <h2>Create Your Account</h2>
     <p>Join our coworking space.</p>
-    <form id="registerForm" class="signup-form">
+    <form id="signupForm" class="signup-form">
       <div class="form-group">
-        <label for="userName">Full Name</label>
-        <input type="text" id="userName" required>
+        <label for="signupName">Full Name</label>
+        <input type="text" id="signupName" required>
       </div>
 
       <div class="form-group">
-        <label for="userPhone">Phone</label>
-        <input type="tel" id="userPhone" required>
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" required>
       </div>
 
       <div class="form-group">
-        <label for="userEmail">Email</label>
-        <input type="email" id="userEmail" required>
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required>
       </div>
 
       <div class="form-group">
-        <label for="userRole">Select Your Role</label>
-        <select id="userRole" required>
+        <label for="signupRole">Select Your Role</label>
+        <select id="signupRole" required>
           <option value="">Select Role</option>
           <option value="owner">Property Owner</option>
           <option value="coworker">Coworker</option>
@@ -50,6 +50,38 @@
     <p id="signupSuccess" style="color: green; font-weight: bold;"></p>
   </section>
 
-  <script src="script.js"></script>
+  <!-- ✅ JS Logic -->
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("signupName").value;
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
+      const role = document.getElementById("signupRole").value;
+
+      try {
+        const res = await fetch("http://127.0.0.1:3000/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password, role }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("✅ Registration successful!");
+          window.location.href = "login.html";
+        } else {
+          alert("❌ " + data.message);
+        }
+      } catch (err) {
+        alert("An error occurred. Please try again.");
+        console.error(err);
+      }
+    });
+  </script>
 </body>
 </html>

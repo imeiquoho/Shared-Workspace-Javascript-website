@@ -1,4 +1,6 @@
-// express-server.js
+// ==============================
+// express-server.js (Auth + Workspaces + Reviews)
+// ==============================
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -12,7 +14,6 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// ===== Connect to MongoDB =====
 const client = new MongoClient(MONGO_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -21,13 +22,14 @@ const client = new MongoClient(MONGO_URI, {
   },
 });
 
-let workspaceCollection;
+let db, workspaceCollection, userCollection;
 
 async function connectMongoDB() {
   try {
     await client.connect();
-    const db = client.db("shared_workspace_db");
+    db = client.db("shared_workspace_db");
     workspaceCollection = db.collection("workspaces");
+    userCollection = db.collection("users");
     console.log("✅ MongoDB connected successfully.");
   } catch (error) {
     console.error("❌ MongoDB connection failed:", error);
@@ -35,14 +37,45 @@ async function connectMongoDB() {
 }
 connectMongoDB();
 
-// ===== Routes =====
+// ===================== ROUTES =====================
 
-// Default route
 app.get("/", (req, res) => {
   res.send("Welcome to the Shared Workspace Web App API with MongoDB!");
 });
 
-// GET all workspaces
+// ----------- USER AUTHENTICATION -----------
+
+// Register
+app.post("/register", async (req, res) => {
+  const { name, phone, email, role, password } = req.body;
+
+  try {
+    const existing = await userCollection.findOne({ email });
+    if (existing) return res.status(400).json({ message: "User already exists." });
+
+    const result = await userCollection.insertOne({ name, phone, email, role, password });
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Registration failed", error: err.message });
+  }
+});
+
+// Login
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await userCollection.findOne({ email, password });
+    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+
+    res.json({ message: "Login successful", user });
+  } catch (err) {
+    res.status(500).json({ message: "Login error", error: err.message });
+  }
+});
+
+// ----------- WORKSPACE ROUTES -----------
+
 app.get("/workspaces", async (req, res) => {
   try {
     const workspaces = await workspaceCollection.find().toArray();
@@ -52,7 +85,6 @@ app.get("/workspaces", async (req, res) => {
   }
 });
 
-// POST a new workspace
 app.post("/workspaces", async (req, res) => {
   const newWorkspace = req.body;
   try {
@@ -63,7 +95,6 @@ app.post("/workspaces", async (req, res) => {
   }
 });
 
-// DELETE a workspace by ID
 app.delete("/workspaces/:id", async (req, res) => {
   const id = req.params.id;
   try {
@@ -78,33 +109,50 @@ app.put("/workspaces/:id", async (req, res) => {
   const id = req.params.id;
   const updatedWorkspace = req.body;
 
-  console.log("👉 Received update request for ID:", id);
-  console.log("📝 New data:", updatedWorkspace);
-
   try {
     const result = await workspaceCollection.updateOne(
       { _id: new ObjectId(id) },
       { $set: updatedWorkspace }
     );
 
-    console.log("🔧 MongoDB Update Result:", result);
-
-    if (result.modifiedCount === 0) {
-      return res.status(404).json({
-        error: "Workspace not found or no change made",
-        attemptedId: id,
-        matchedCount: result.matchedCount,
-      });
+    if (result.modifiedCount === 0 && result.matchedCount === 0) {
+      return res.status(404).json({ error: "Workspace not found or no change made" });
     }
 
-    res.json({ message: "✅ Workspace updated successfully" });
+    res.json({ message: "Workspace updated successfully" });
   } catch (err) {
-    console.error("❌ Update Error:", err.message);
     res.status(500).json({ error: "Failed to update workspace", details: err.message });
   }
 });
 
-// Start server
+// ----------- REVIEWS -----------
+
+app.get("/workspaces/:id/reviews", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const workspace = await workspaceCollection.findOne({ _id: new ObjectId(id) });
+    res.json(workspace.reviews || []);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch reviews" });
+  }
+});
+
+app.post("/workspaces/:id/reviews", async (req, res) => {
+  const id = req.params.id;
+  const { user, rating, comment } = req.body;
+  try {
+    const result = await workspaceCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $push: { reviews: { user, rating, comment, date: new Date() } } }
+    );
+    res.status(201).json({ message: "Review added", result });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to add review" });
+  }
+});
+
+// ===================== START SERVER =====================
+
 app.listen(PORT, () => {
-  console.log(`Server running at http://127.0.0.1:${PORT}`);
+  console.log(`🚀 Server running at http://127.0.0.1:${PORT}`);
 });
