@@ -1,37 +1,29 @@
 # 🏢 Shared Workspace Web App
 
-A full-featured coworking management platform that allows users to register, list properties and workspaces, search, leave reviews, and manage accounts.
+A dynamic coworking space management platform that enables users to register as **Property Owners** or **Coworkers**, list properties and workspaces, search and filter available spaces, leave star-rated reviews, and manage listings — all through a responsive, user-friendly interface.
 
-## 🚀 Features
+Built using **HTML, CSS, JavaScript (Vanilla), Express.js**, and **MongoDB**, this full-stack application provides both client and server functionality with local authentication and cloud database integration.
 
-- 👤 User Registration & Login with Role Selection (Owner or Coworker)
-- 🏠 Property Listing for Owners
-- 💼 Workspace Listing under Properties
-- 🔍 Workspace Search with Filters
-- ⭐ Workspace Reviews (with star ratings)
-- 🧑‍💻 Dashboard with Dynamic Greeting and Role-based Access
-- 🗑️ Modify & Delete Listings
-- 🗝️ Protected Routes with Local Storage Auth
-- 🎨 Responsive UI with Light/Dark Mode & Animations
-- 💾 MongoDB Integration with Express.js Backend
+---
 
-## 🛠️ Tech Stack
+🚀 Key Features
 
-- **Frontend:** HTML, CSS, JavaScript
-- **Backend:** Node.js, Express
-- **Database:** MongoDB Atlas
-- **Other:** Render (deployment), GitHub, Postman (testing)
+- 🔐 **User Registration & Login** with Role Selection (Owner or Coworker)
+- 🏠 **Property & Workspace Listings** for Owners
+- 🔍 **Search and Filter Workspaces** by multiple criteria
+- 🌟 **Review System** with Star Ratings and Live Updates
+- 🛠️ **Modify & Delete Listings** (Role-restricted)
+- 👥 **Role-Based Navigation** and Dynamic Dashboard Greeting
+- 🗝️ **Protected Routes** with Local Storage Auth Handling
+- 🎨 **Responsive UI** with Dark Mode, Lightbox Gallery, and CSS Animations
+- ☁️ **MongoDB Integration** using Express.js Backend API
+- 🌐 **Live Deployment** using Render (Optional)
 
-## 📸 Screenshots
+---
 
-_Add 2–3 screenshots here of:_
-- Login page
-- Search workspace
-- Review section (with stars)
+🧑‍💻 How to Run the Project Locally
 
-## 🧑‍🏫 How to Run Locally
-
-1. Clone this repo:
+Clone the repository
 ```bash
-git clone https://github.com/yourusername/shared-workspace-web-app.git
+git clone https://github.com/imeiquoho/Shared-Workspace-Javascript-website
 cd shared-workspace-web-app
