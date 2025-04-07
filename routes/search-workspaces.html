@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search Workspaces</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+
+  <!-- ✅ Navigation -->
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="../assets/images/logo.png" alt="Coworking Logo" />
+      </div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li id="userGreeting"></li>
+        <li><a href="#" onclick="logoutUser()">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ✅ Hero Section with Search Form -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Search Workspaces</h2>
+      <p>Find your ideal coworking space by customizing your search below.</p>
+
+      <form id="searchForm" class="search-form">
+        <div class="form-group">
+          <label for="workspaceType">Workspace Type</label>
+          <select id="workspaceType">
+            <option value="">Any</option>
+            <option value="Meeting Room">Meeting Room</option>
+            <option value="Private Office">Private Office</option>
+            <option value="Open Desk">Open Desk</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="leaseTerm">Lease Term</label>
+          <select id="leaseTerm">
+            <option value="">Any</option>
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="minPrice">Min Price</label>
+          <input type="number" id="minPrice" placeholder="0" />
+        </div>
+
+        <div class="form-group">
+          <label for="maxPrice">Max Price</label>
+          <input type="number" id="maxPrice" placeholder="500" />
+        </div>
+
+        <div class="form-group">
+          <label for="availability">Available From</label>
+          <input type="date" id="availability" />
+        </div>
+
+        <button type="submit" class="btn-submit">Search</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ✅ Results Display -->
+  <section class="results-section">
+    <h2>Search Results</h2>
+    <div id="resultsContainer"></div>
+  </section>
+
+  <!-- ✅ Scripts -->
+  <script src="../scripts/script.js"></script>
+  <script>
+    protectPage();
+    showUserGreeting();
+
+    const savedWorkspaces = JSON.parse(localStorage.getItem("workspaces")) || [];
+
+    document.getElementById("searchForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const type = document.getElementById("workspaceType").value;
+      const lease = document.getElementById("leaseTerm").value;
+      const min = document.getElementById("minPrice").value;
+      const max = document.getElementById("maxPrice").value;
+      const date = document.getElementById("availability").value;
+
+      const resultsContainer = document.getElementById("resultsContainer");
+      resultsContainer.innerHTML = "";
+
+      const filtered = savedWorkspaces.filter(space => {
+        return (!type || space.type === type) &&
+               (!lease || space.term === lease) &&
+               (!min || space.price >= parseInt(min)) &&
+               (!max || space.price <= parseInt(max)) &&
+               (!date || new Date(space.available) >= new Date(date));
+      });
+
+      if (filtered.length === 0) {
+        resultsContainer.innerHTML = "<p>No matching workspaces found.</p>";
+      } else {
+        filtered.forEach(space => {
+          const card = document.createElement("div");
+          card.className = "workspace-card";
+          card.innerHTML = `
+            <img src="../assets/images/placeholder.jpg" alt="${space.type}" />
+            <div class="workspace-info">
+              <h3>${space.type}</h3>
+              <p><strong>Property:</strong> ${space.property}</p>
+              <p><strong>Lease:</strong> ${space.term}</p>
+              <p><strong>Price:</strong> $${space.price}</p>
+              <p><strong>Available:</strong> ${space.available}</p>
+              <button class="btn-view" onclick="alert('📝 Feature to view more details coming soon.')">View</button>
+              <button class="btn-submit" onclick='bookWorkspace(${JSON.stringify(space)})'>Book Now</button>
+            </div>
+          `;
+          resultsContainer.appendChild(card);
+        });
+      }
+    });
+
+    function bookWorkspace(space) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user) {
+        alert("⚠️ Please login to book a workspace.");
+        return;
+      }
+
+      const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+      const newBooking = { ...space, bookedBy: user.email, bookedAt: new Date().toISOString() };
+      bookings.push(newBooking);
+      localStorage.setItem("bookings", JSON.stringify(bookings));
+      alert("✅ Workspace booked successfully!");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body class="about">
+  <!-- ✅ Navigation -->
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="../assets/images/logo.png" alt="Coworking Logo" />
+      </div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="search-workspaces.html">Search</a></li>
+        <li><a href="../my-bookings.html">My Bookings</a></li>
+        <li><a href="#" onclick="logoutUser()">Logout</a></li>
+        <li id="userGreeting"></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ✅ Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>About Our Coworking Space</h2>
+      <p>At <strong>Shared Workspace</strong>, we provide flexible, collaborative environments for freelancers, entrepreneurs, and growing teams.</p>
+      <p>Our spaces are designed to inspire creativity and productivity, offering all the amenities you need to do your best work.</p>
+      <p>Whether you're looking for a quiet private office or a buzzing open desk, we’ve got you covered!</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Shared Workspace. All Rights Reserved.</p>
+  </footer>
+
+  <!-- ✅ Scripts -->
+  <script src="../scripts/script.js"></script>
+  <script>
+    protectPage();
+    showUserGreeting();
+  </script>
+</body>
+</html>
+

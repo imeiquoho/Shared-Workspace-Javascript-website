@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Services</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../assets/styles.css" />
   <style>
     .services {
       text-align: center;
@@ -60,17 +60,17 @@
 </head>
 <body>
 
-  <!-- ✅ Header with Logout + Greeting -->
+  <!-- ✅ Header with Navigation -->
   <header>
     <nav>
-      <div class="logo"><img src="images/logo.png" alt="Coworking Logo" /></div>
+      <div class="logo"><img src="../assets/images/logo.png" alt="Coworking Logo" /></div>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="../index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="services.html" class="active">Services</a></li>
+        <li><a href="service.html" class="active">Services</a></li>
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="#" onclick="logout()">Logout</a></li>
+        <li><a href="#" onclick="logoutUser()">Logout</a></li>
         <li id="userGreeting"></li>
       </ul>
     </nav>
@@ -102,7 +102,7 @@
     <p>&copy; 2025 Coworking Spaces. All Rights Reserved.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="../scripts/script.js"></script>
   <script>
     protectPage();
     showUserGreeting();

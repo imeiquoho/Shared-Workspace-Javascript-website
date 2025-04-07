@@ -1,48 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CoWorking Space - Home</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/styles.css" />
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
-<body>
+<body class="index">
 
-  <!-- Navigation -->
+  <!-- ✅ Navigation -->
   <header>
     <nav>
-      <div class="logo"><img src="images/logo.png" alt="Coworking Logo"></div>
-      <div class="menu-toggle">☰</div>
+      <div class="logo">
+        <img src="assets/images/logo.png" alt="Coworking Logo" />
+      </div>
       <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="search-workspaces.html">Search Workspaces</a></li>
-        <li><a href="property-listing.html">List Property</a></li>
-        <li><a href="workspace-listing.html">List Workspace</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li id="userGreeting"></li>
-        <li id="signupLink"><a href="signup.html">Sign Up</a></li>
-        <li id="signinLink"><a href="signin.html">Sign In</a></li>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="routes/search-workspaces.html">Search Workspaces</a></li>
+        <li><a href="routes/property-listing.html">List Property</a></li>
+        <li><a href="routes/workspace-listing.html">List Workspace</a></li>
+        <li><a href="routes/modify.html">Modify Listings</a></li>
+        <li><a href="routes/gallary.html">Gallery</a></li>
+        <li><a href="routes/service.html">Services</a></li>
+        <li><a href="my-bookings.html">My Bookings</a></li>
+        <li><a href="routes/about.html">About</a></li>
+        <li><a href="routes/contact.html">Contact</a></li>
+        <li id="signupLink"><a href="routes/signup.html">Sign Up</a></li>
+        <li id="signinLink"><a href="routes/signin.html">Sign In</a></li>
         <li id="logoutLink" style="display: none;"><a href="#" onclick="logoutUser()">Logout</a></li>
-        <li><a href="modify.html">Modify Listings</a></li>
+        <li id="userGreeting"></li>
       </ul>
       <button id="dark-mode-toggle">🌙</button>
     </nav>
   </header>
 
-  <!-- Hero Section -->
-  <section id="home" class="hero">
+  <!-- ✅ Hero Section -->
+  <section class="hero" id="home">
     <div class="hero-content">
       <h1>Innovative Workspaces for Professionals</h1>
       <p>Flexible, affordable, and premium coworking spaces for remote teams.</p>
-      <a href="signup.html" class="btn">Sign Up Now</a>
+      <a href="routes/signup.html" class="btn">Sign Up Now</a>
     </div>
   </section>
 
+  <!-- ✅ Script -->
+  <script src="scripts/script.js"></script>
   <script>
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      document.getElementById("userGreeting").innerHTML = `<span style="color:white">Hi, ${user.name}</span>`;
+      document.getElementById("userGreeting").innerHTML = `<span style="color:white; font-weight:bold;">Hi, ${user.name}</span>`;
       document.getElementById("logoutLink").style.display = "inline";
       document.getElementById("signupLink").style.display = "none";
       document.getElementById("signinLink").style.display = "none";
