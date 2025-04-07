@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gallery</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../assets/styles.css" />
   <style>
     .gallery {
       text-align: center;
       padding: 40px 20px;
-    }
-
-    .gallery h2 {
-      margin-bottom: 1rem;
     }
 
     .gallery-container {
@@ -65,10 +61,9 @@
       width: 100vw;
       height: 100vh;
       background-color: rgba(0, 0, 0, 0.8);
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
-      display: none;
       z-index: 1000;
     }
 
@@ -85,43 +80,50 @@
 </head>
 <body>
 
+  <!-- ✅ Header -->
   <header>
     <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
+      <div class="logo">
+        <img src="../assets/images/logo.png" alt="Coworking Logo" />
+      </div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="services.html">Services</a></li>
+        <li><a href="service.html">Services</a></li>
         <li><a href="gallery.html" class="active">Gallery</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="#" onclick="logout()">Logout</a></li>
+        <li><a href="#" onclick="logoutUser()">Logout</a></li>
         <li id="userGreeting"></li>
       </ul>
     </nav>
   </header>
 
+  <!-- 🖼️ Gallery Section -->
   <section class="gallery">
     <h2>Our Gallery</h2>
     <div class="gallery-container">
       <figure>
-        <img src="images/coworking-1.jpg" alt="Office Space" onclick="openLightbox(this.src)">
+        <img src="../assets/images/coworking-1.jpg" alt="Modern Office Space" onclick="openLightbox(this.src)">
         <figcaption>Modern Office Space</figcaption>
       </figure>
       <figure>
-        <img src="images/coworking-2.jpg" alt="Shared Desk" onclick="openLightbox(this.src)">
+        <img src="../assets/images/coworking-2.jpg" alt="Shared Desk Area" onclick="openLightbox(this.src)">
         <figcaption>Open Shared Desks</figcaption>
       </figure>
       <figure>
-        <img src="images/coworking-3.jpg" alt="Meeting Room" onclick="openLightbox(this.src)">
+        <img src="../assets/images/coworking-3.jpg" alt="Meeting Room Setup" onclick="openLightbox(this.src)">
         <figcaption>Spacious Meeting Room</figcaption>
       </figure>
     </div>
   </section>
 
+  <!-- 🔍 Lightbox -->
   <div class="lightbox" id="lightbox">
-    <img src="" alt="Enlarged image" id="lightbox-img">
+    <img src="" alt="Enlarged Image" id="lightbox-img">
   </div>
 
-  <script src="script.js"></script>
+  <!-- ✅ Scripts -->
+  <script src="../scripts/script.js"></script>
   <script>
     function openLightbox(src) {
       const lightbox = document.getElementById("lightbox");
@@ -136,6 +138,11 @@
 
     protectPage();
     showUserGreeting();
+
+    function logoutUser() {
+      localStorage.removeItem("user");
+      window.location.href = "../index.html";
+    }
   </script>
 </body>
 </html>

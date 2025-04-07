@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modify Listings</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+
+  <!-- ✅ Header with Navigation -->
+  <header>
+    <nav>
+      <div class="logo"><img src="../assets/images/logo.png" alt="Coworking Logo" /></div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="property-listing.html">List Property</a></li>
+        <li><a href="workspace-listing.html">List Workspace</a></li>
+        <li><a href="search-workspaces.html">Search Workspaces</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+        <li id="userGreeting"></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ✅ Modify Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Modify Your Listings</h2>
+      <p>Choose a listing type and enter the ID to update or delete your submission.</p>
+
+      <form id="modifyForm" class="workspace-form">
+        <div class="form-group">
+          <label for="listingType">Listing Type</label>
+          <select id="listingType" required>
+            <option value="">Select Type</option>
+            <option value="property">Property</option>
+            <option value="workspace">Workspace</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="listingId">Listing ID</label>
+          <input type="text" id="listingId" placeholder="Enter Listing ID" required />
+        </div>
+
+        <div class="form-group">
+          <label for="newPrice">New Price</label>
+          <input type="number" id="newPrice" placeholder="Leave blank to keep old price" />
+        </div>
+
+        <div class="form-group">
+          <label for="newLease">New Lease Term</label>
+          <select id="newLease">
+            <option value="">Leave Unchanged</option>
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-submit">Update Listing</button>
+        <button type="button" class="btn-submit" style="background-color: #c62828; margin-top: 10px;" onclick="deleteListing()">Delete Listing</button>
+      </form>
+
+      <p id="modifyMsg"></p>
+    </div>
+  </section>
+
+  <!-- ✅ Script -->
+  <script src="../scripts/script.js"></script>
+  <script>
+    protectPage();
+    showUserGreeting();
+
+    document.getElementById("modifyForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const type = document.getElementById("listingType").value;
+      const id = document.getElementById("listingId").value;
+      const newPrice = document.getElementById("newPrice").value;
+      const newLease = document.getElementById("newLease").value;
+
+      if (!type || !id) {
+        document.getElementById("modifyMsg").textContent = "Please select a listing type and provide the listing ID.";
+        return;
+      }
+
+      document.getElementById("modifyMsg").textContent =
+        `✅ ${type.toUpperCase()} with ID "${id}" updated.` +
+        `${newPrice ? " New Price: $" + newPrice + "." : ""}` +
+        `${newLease ? " New Lease: " + newLease + "." : ""}`;
+    });
+
+    function deleteListing() {
+      const type = document.getElementById("listingType").value;
+      const id = document.getElementById("listingId").value;
+
+      if (!type || !id) {
+        document.getElementById("modifyMsg").textContent = "Please select a listing type and provide the ID.";
+        return;
+      }
+
+      document.getElementById("modifyMsg").textContent = `❌ ${type.toUpperCase()} with ID "${id}" has been deleted.`;
+    }
+  </script>
+</body>
+</html>

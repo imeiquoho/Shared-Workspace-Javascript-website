@@ -1,0 +1,234 @@
+/* 🌐 Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 🖼️ Body Styling with fixed office-style background */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: url('../assets/images/coworking-1.jpg') no-repeat center center fixed;
+  background-size: cover;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* 🌙 Dark Mode */
+body.dark-mode {
+  background: #121212 !important;
+  color: #f0f0f0;
+}
+body.dark-mode header,
+body.dark-mode footer {
+  background: #1f1f1f;
+}
+
+/* ✅ Navigation */
+header {
+  background: rgba(0, 0, 0, 0.85);
+  padding: 1rem;
+  color: white;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  list-style: none;
+  margin-top: 10px;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 12px;
+  transition: background 0.3s;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+  background: #ff5722;
+  border-radius: 6px;
+}
+
+#dark-mode-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* 🦸 Hero Section */
+.hero {
+  padding: 5rem 1rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.hero h1, .hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero .btn {
+  background: white;
+  color: #ff5722;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.hero .btn:hover {
+  background: #ffccbc;
+  transform: scale(1.05);
+}
+
+/* 🎨 Forms and Shared Panels */
+.form-section,
+.signup-section,
+.contact-section,
+.property-section,
+.workspace-section,
+.review-section,
+.gallery-section,
+.services,
+.about-section {
+  background: rgba(255, 255, 255, 0.92);
+  margin: 2rem auto;
+  padding: 40px 20px;
+  max-width: 900px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* 📋 Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #f0f0f0;
+  font-size: 16px;
+}
+
+button.btn,
+button.btn-submit {
+  background-color: #ff5722;
+  color: white;
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button.btn:hover,
+button.btn-submit:hover {
+  background-color: #e64a19;
+}
+
+/* 🖼️ Gallery */
+.gallery-images {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.gallery-images img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.gallery-images img:hover {
+  transform: scale(1.05);
+}
+
+/* ⭐ Star Rating */
+.stars {
+  color: gold;
+  font-size: 1.2rem;
+  display: inline-block;
+}
+
+/* 🦶 Footer */
+footer {
+  background: #333;
+  color: #ccc;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+/* 📱 Responsive */
+@media screen and (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gallery-images img {
+    width: 90%;
+    height: auto;
+  }
+}

@@ -4,21 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact Us</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../assets/styles.css" />
 </head>
 <body>
 
   <!-- ✅ Header -->
   <header>
     <nav>
-      <div class="logo"><img src="images/logo.png" alt="Coworking Logo"></div>
+      <div class="logo"><img src="../assets/images/logo.png" alt="Coworking Logo" /></div>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="../index.html">Home</a></li>
         <li><a href="search-workspaces.html">Search Workspaces</a></li>
         <li><a href="property-listing.html">List Property</a></li>
         <li><a href="workspace-listing.html">List Workspace</a></li>
         <li><a href="contact.html" class="active">Contact</a></li>
-        <li><a href="#" onclick="logout()">Logout</a></li>
+        <li><a href="#" onclick="logoutUser()">Logout</a></li>
         <li id="userGreeting"></li>
       </ul>
       <button id="dark-mode-toggle">🌙</button>
@@ -68,16 +68,21 @@
     <p>&copy; 2025 Coworking Spaces. All Rights Reserved.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- ✅ JS -->
+  <script src="../scripts/script.js"></script>
   <script>
     protectPage();
     showUserGreeting();
 
-    // Optional: basic feedback
+    function logoutUser() {
+      localStorage.removeItem("user");
+      window.location.href = "../index.html";
+    }
+
     document.getElementById("contactForm").addEventListener("submit", function (e) {
       e.preventDefault();
       alert("📬 Message submitted! We'll get back to you soon.");
-      e.target.reset(); // Clear form
+      this.reset();
     });
   </script>
 </body>

@@ -1,18 +1,18 @@
-// workspaceData.js - Manages users, properties, workspaces, and reviews
+// workspaceData.js - Manages users, properties, workspaces, and reviews (temporary client-side)
 
-// ===== Temporary In-Memory Data =====
+// Initialize data structures
 const users = [];
 const properties = [];
 const workspaces = [];
 
-// ===== User Functions =====
+// ===== User Management =====
 function addUser(name, phone, email, role) {
   const user = { id: users.length + 1, name, phone, email, role };
   users.push(user);
-  console.log("User added:", user);
+  console.log("✅ User added:", user);
 }
 
-// ===== Property Functions =====
+// ===== Property Management =====
 function addProperty(ownerId, address, neighborhood, size, parking, transport) {
   const property = {
     id: properties.length + 1,
@@ -24,10 +24,10 @@ function addProperty(ownerId, address, neighborhood, size, parking, transport) {
     transport,
   };
   properties.push(property);
-  console.log("Property added:", property);
+  console.log("🏠 Property added:", property);
 }
 
-// ===== Workspace Functions =====
+// ===== Workspace Management =====
 function addWorkspace(propertyId, type, capacity, smoking, availability, leaseTerm, price) {
   const workspace = {
     id: workspaces.length + 1,
@@ -40,40 +40,44 @@ function addWorkspace(propertyId, type, capacity, smoking, availability, leaseTe
     price,
   };
   workspaces.push(workspace);
-  console.log("Workspace added:", workspace);
+  console.log("💼 Workspace added:", workspace);
 }
 
-function searchWorkspaces(term, minPrice, maxPrice, availability) {
+// ===== Workspace Search =====
+function searchWorkspaces(term = "", minPrice = 0, maxPrice = Infinity, availability = "") {
   return workspaces.filter((workspace) => {
     return (
-      (workspace.type.toLowerCase().includes(term.toLowerCase()) || term === "") &&
-      workspace.price >= (minPrice || 0) &&
-      workspace.price <= (maxPrice || Infinity) &&
+      workspace.type.toLowerCase().includes(term.toLowerCase()) &&
+      workspace.price >= minPrice &&
+      workspace.price <= maxPrice &&
       (availability === "" || workspace.availability >= availability)
     );
   });
 }
 
+// ===== Owner Listings =====
 function getOwnerWorkspaces(ownerId) {
   return properties
     .filter((prop) => prop.ownerId === ownerId)
     .map((prop) => workspaces.filter((ws) => ws.propertyId === prop.id));
 }
 
-// ===== Reviews (MongoDB) =====
+// ===== Reviews (MongoDB) Integration =====
 
-// Convert numeric rating to stars
+// ⭐ Convert numeric rating to star icons
 function getStars(rating) {
   return "★".repeat(rating) + "☆".repeat(5 - rating);
 }
 
-// Load reviews for a workspace
+// 📥 Load and display reviews for a workspace
 async function loadReviews(workspaceId) {
   try {
     const response = await fetch(`http://127.0.0.1:3000/workspaces/${workspaceId}/reviews`);
     const reviews = await response.json();
 
     const reviewList = document.getElementById("review-list");
+    if (!reviewList) return;
+
     reviewList.innerHTML = "";
 
     reviews.forEach((review) => {
@@ -86,22 +90,25 @@ async function loadReviews(workspaceId) {
       reviewList.appendChild(li);
     });
   } catch (err) {
-    console.error("Error loading reviews:", err);
+    console.error("❌ Error loading reviews:", err);
   }
 }
 
-// Submit review form logic
-document.getElementById("reviewForm").addEventListener("submit", async (e) => {
+// 📝 Submit review (from frontend form)
+document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const selectedProperty = document.getElementById("propertySelect").value;
-  const workspaceId = workspaceMap[selectedProperty]; // use your mapped ID
+  const selectedProperty = document.getElementById("propertySelect")?.value;
+  const workspaceId = workspaceMap?.[selectedProperty]; // map property name to workspace _id
 
-  const user = document.getElementById("reviewUser").value;
-  const rating = parseInt(document.getElementById("reviewRating").value);
-  const comment = document.getElementById("reviewComment").value;
+  const user = document.getElementById("reviewUser")?.value;
+  const rating = parseInt(document.getElementById("reviewRating")?.value);
+  const comment = document.getElementById("reviewComment")?.value;
 
-  if (!workspaceId) return alert("Please select a valid property.");
+  if (!workspaceId || !user || !rating || !comment) {
+    alert("Please fill in all review fields and select a valid workspace.");
+    return;
+  }
 
   try {
     const res = await fetch(`http://127.0.0.1:3000/workspaces/${workspaceId}/reviews`, {
@@ -112,10 +119,10 @@ document.getElementById("reviewForm").addEventListener("submit", async (e) => {
 
     const result = await res.json();
     document.getElementById("reviewMsg").textContent = result.message || "Review submitted!";
-    loadReviews(workspaceId); // Refresh list
+    loadReviews(workspaceId); // Reload reviews
     e.target.reset();
   } catch (err) {
-    console.error("Review submit failed:", err);
+    console.error("❌ Failed to submit review:", err);
     document.getElementById("reviewMsg").textContent = "Failed to submit review.";
   }
 });

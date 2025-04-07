@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>List Workspace</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <style>
+    .workspace-section {
+      max-width: 800px;
+      margin: 4rem auto;
+      background: #ffffffee;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .workspace-section h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    .workspace-form .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .workspace-form label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+
+    .workspace-form input,
+    .workspace-form select {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 12px;
+      font-size: 1rem;
+      background: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-submit:hover {
+      background: #e64a19;
+    }
+
+    .review-section,
+    .submit-review {
+      margin-top: 3rem;
+    }
+
+    .review-section h3,
+    .submit-review h4 {
+      margin-bottom: 1rem;
+    }
+
+    .review-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      z-index: 1001;
+      display: none;
+    }
+
+    .review-popup.active {
+      display: block;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    #review-list li {
+      margin-bottom: 10px;
+      background: #f9f9f9;
+      padding: 10px;
+      border-left: 4px solid #4caf50;
+      border-radius: 5px;
+    }
+
+    .btn-view {
+      margin-top: 1rem;
+      background: #007BFF;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-view:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navigation -->
+  <header>
+    <nav>
+      <div class="logo"><img src="../assets/images/logo.png" alt="Coworking Logo" /></div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li id="userGreeting"></li>
+        <li><a href="#" onclick="logoutUser()">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ✅ Workspace Listing Form -->
+  <section class="workspace-section">
+    <h2>List a Workspace</h2>
+    <p>Select one of your properties, then add workspace details.</p>
+
+    <form id="workspaceForm" class="workspace-form">
+      <div class="form-group">
+        <label for="propertySelect">Select Property</label>
+        <select id="propertySelect" required>
+          <option value="">Choose Property</option>
+          <option value="123 Main St">123 Main St</option>
+          <option value="Downtown Office">Downtown Office</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="workspaceType">Workspace Type</label>
+        <select id="workspaceType" required>
+          <option value="">Select Type</option>
+          <option value="Meeting Room">Meeting Room</option>
+          <option value="Private Office">Private Office</option>
+          <option value="Open Desk">Open Desk</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="seatingCapacity">Seating Capacity</label>
+        <input type="number" id="seatingCapacity" required />
+      </div>
+
+      <div class="form-group">
+        <label for="smokingPolicy">Smoking Allowed?</label>
+        <select id="smokingPolicy" required>
+          <option value="">Select</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="availabilityDate">Availability Date</label>
+        <input type="date" id="availabilityDate" required />
+      </div>
+
+      <div class="form-group">
+        <label for="leaseTerm">Lease Term</label>
+        <select id="leaseTerm" required>
+          <option value="">Select Term</option>
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Price ($)</label>
+        <input type="number" id="price" required />
+      </div>
+
+      <button type="submit" class="btn-submit">Add Workspace</button>
+      <p id="workspaceMsg"></p>
+
+      <button type="button" class="btn-view" onclick="openReviewPopup()">View Reviews</button>
+    </form>
+
+    <!-- ⭐ Review Submission -->
+    <div class="submit-review">
+      <h4>Leave a Review</h4>
+      <form id="reviewForm">
+        <input type="text" id="reviewUser" placeholder="Your Name" required />
+        <select id="reviewRating" required>
+          <option value="">Select Rating</option>
+          <option value="5">★★★★★</option>
+          <option value="4">★★★★</option>
+          <option value="3">★★★</option>
+          <option value="2">★★</option>
+          <option value="1">★</option>
+        </select>
+        <textarea id="reviewComment" placeholder="Your comment" rows="3" required></textarea>
+        <button type="submit" class="btn-submit">Submit Review</button>
+      </form>
+      <p id="reviewMsg"></p>
+    </div>
+  </section>
+
+  <!-- ⭐ Review Popup -->
+  <div class="overlay" id="overlay" onclick="closeReviewPopup()"></div>
+  <div class="review-popup" id="reviewPopup">
+    <h4>Reviews for Selected Workspace</h4>
+    <ul id="review-list"></ul>
+    <p><strong>Average Rating:</strong> <span id="avgRating">N/A</span></p>
+    <button onclick="closeReviewPopup()" class="btn-submit" style="margin-top: 1rem;">Close</button>
+  </div>
+
+  <!-- ✅ Scripts -->
+  <script src="../scripts/script.js"></script>
+  <script>
+    protectPage();
+    showUserGreeting();
+
+    const workspaceReviews = JSON.parse(localStorage.getItem("workspaceReviews")) || {};
+
+    function openReviewPopup() {
+      const selected = document.getElementById("propertySelect").value;
+      const reviews = workspaceReviews[selected] || [];
+      const list = document.getElementById("review-list");
+
+      list.innerHTML = reviews.length
+        ? reviews.map(r => `<li><strong>${r.user}:</strong> ${"★".repeat(r.rating)}<br>${r.comment}</li>`).join('')
+        : "<li>No reviews available for this property.</li>";
+
+      const avg = reviews.length ? (reviews.reduce((a, r) => a + r.rating, 0) / reviews.length).toFixed(1) : "N/A";
+      document.getElementById("avgRating").textContent = avg !== "N/A" ? `${avg} ★` : "N/A";
+
+      document.getElementById("reviewPopup").classList.add("active");
+      document.getElementById("overlay").classList.add("active");
+    }
+
+    function closeReviewPopup() {
+      document.getElementById("reviewPopup").classList.remove("active");
+      document.getElementById("overlay").classList.remove("active");
+    }
+
+    document.getElementById("reviewForm")?.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const selected = document.getElementById("propertySelect").value;
+      const review = {
+        user: document.getElementById("reviewUser").value,
+        rating: parseInt(document.getElementById("reviewRating").value),
+        comment: document.getElementById("reviewComment").value
+      };
+
+      workspaceReviews[selected] = workspaceReviews[selected] || [];
+      workspaceReviews[selected].push(review);
+      localStorage.setItem("workspaceReviews", JSON.stringify(workspaceReviews));
+
+      document.getElementById("reviewMsg").textContent = "✅ Review submitted!";
+      this.reset();
+    });
+
+    const workspaceForm = document.getElementById("workspaceForm");
+    if (workspaceForm) {
+      workspaceForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const newWorkspace = {
+          property: propertySelect.value,
+          type: workspaceType.value,
+          seating: seatingCapacity.value,
+          smoking: smokingPolicy.value,
+          available: availabilityDate.value,
+          term: leaseTerm.value,
+          price: price.value,
+        };
+        const saved = JSON.parse(localStorage.getItem("workspaces")) || [];
+        saved.push(newWorkspace);
+        localStorage.setItem("workspaces", JSON.stringify(saved));
+
+        document.getElementById("workspaceMsg").textContent = "✅ Workspace added successfully!";
+        this.reset();
+      });
+    }
+  </script>
+</body>
+</html>

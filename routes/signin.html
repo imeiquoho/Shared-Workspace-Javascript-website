@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Log In</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+
+  <!-- ✅ Navigation -->
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="../assets/images/logo.png" alt="Logo" />
+      </div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="signup.html" id="signupLink">Sign Up</a></li>
+        <li id="userGreeting" style="display:none;"></li>
+        <li><a href="#" onclick="logoutUser()" id="logoutLink" style="display:none;">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ✅ Login Form -->
+  <section class="signup-section">
+    <h2>Log In to Your Account</h2>
+    <p>Please enter your email to continue.</p>
+
+    <form id="loginForm" class="signup-form">
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" placeholder="Your Email" required />
+      </div>
+      <button type="submit" class="btn-submit">Log In</button>
+    </form>
+
+    <p id="loginError" style="color: red; font-weight: bold;"></p>
+  </section>
+
+  <!-- ✅ Scripts -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        document.getElementById("userGreeting").style.display = "inline";
+        document.getElementById("logoutLink").style.display = "inline";
+        document.getElementById("signupLink").style.display = "none";
+        document.getElementById("userGreeting").textContent = `Hi, ${user.name}`;
+      }
+
+      const loginForm = document.getElementById("loginForm");
+      loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        const foundUser = users.find(u => u.email.toLowerCase() === email);
+
+        if (foundUser) {
+          localStorage.setItem("user", JSON.stringify(foundUser));
+          window.location.href = "../index.html";
+        } else {
+          document.getElementById("loginError").textContent = "❌ Invalid email. Please register first.";
+        }
+      });
+    });
+
+    function logoutUser() {
+      localStorage.removeItem("user");
+      window.location.href = "../index.html";
+    }
+  </script>
+</body>
+</html>

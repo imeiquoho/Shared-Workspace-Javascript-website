@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Bookings</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <style>
+    .bookings-section {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 40px;
+      background: #ffffffdd;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .booking-card {
+      background: #f8f8f8;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .booking-card h4 {
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .cancel-btn {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      margin-top: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .cancel-btn:hover {
+      background-color: #e60000;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      background: #f5f5f5;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">
+      <img src="../assets/images/logo.png" alt="Coworking Logo" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="search-workspaces.html">Search</a></li>
+      <li><a href="my-bookings.html" class="active">My Bookings</a></li>
+      <li><a href="#" onclick="logoutUser()">Logout</a></li>
+      <li id="userGreeting"></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="bookings-section">
+  <h2 style="text-align:center">Your Workspace Bookings</h2>
+  <div id="bookingsList"></div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Shared Workspace. All Rights Reserved.</p>
+</footer>
+
+<script src="../scripts/script.js"></script>
+<script>
+  protectPage();
+  showUserGreeting();
+
+  const bookingsList = document.getElementById("bookingsList");
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const allBookings = JSON.parse(localStorage.getItem("bookings")) || [];
+  const userBookings = allBookings
+    .filter(b => b.bookedBy === currentUser.email)
+    .sort((a, b) => new Date(a.available) - new Date(b.available));
+
+  if (userBookings.length === 0) {
+    bookingsList.innerHTML = "<p style='text-align:center;'>You haven't booked any workspaces yet.</p>";
+  } else {
+    userBookings.forEach((booking, index) => {
+      const div = document.createElement("div");
+      div.className = "booking-card";
+      div.innerHTML = `
+        <h4>${booking.type} at ${booking.property}</h4>
+        <p><strong>Lease:</strong> ${booking.term}</p>
+        <p><strong>Price:</strong> $${booking.price}</p>
+        <p><strong>Available From:</strong> ${booking.available}</p>
+        <button class="cancel-btn" onclick="cancelBooking(${index})">Cancel Booking</button>
+      `;
+      bookingsList.appendChild(div);
+    });
+  }
+
+  function cancelBooking(index) {
+    if (!confirm("Are you sure you want to cancel this booking?")) return;
+
+    let updatedBookings = JSON.parse(localStorage.getItem("bookings")) || [];
+    const filtered = updatedBookings.filter((b, i) => {
+      const match = b.bookedBy === currentUser.email;
+      const sameIndex = i === index;
+      return !(match && sameIndex);
+    });
+    localStorage.setItem("bookings", JSON.stringify(filtered));
+    alert("✅ Booking cancelled successfully!");
+    window.location.reload();
+  }
+</script>
+</body>
+</html>
