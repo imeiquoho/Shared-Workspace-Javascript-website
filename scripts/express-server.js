@@ -1,5 +1,5 @@
 // ==============================
-// express-server.js (Auth + Workspaces + Reviews)
+// express-server.js (Auth + Properties + Workspaces + Reviews)
 // ==============================
 const express = require("express");
 const cors = require("cors");
@@ -22,14 +22,15 @@ const client = new MongoClient(MONGO_URI, {
   },
 });
 
-let db, workspaceCollection, userCollection;
+let db, userCollection, workspaceCollection, propertyCollection;
 
 async function connectMongoDB() {
   try {
     await client.connect();
     db = client.db("shared_workspace_db");
-    workspaceCollection = db.collection("workspaces");
     userCollection = db.collection("users");
+    workspaceCollection = db.collection("workspaces");
+    propertyCollection = db.collection("properties");
     console.log("✅ MongoDB connected successfully.");
   } catch (error) {
     console.error("❌ MongoDB connection failed:", error);
@@ -45,7 +46,6 @@ app.get("/", (req, res) => {
 
 // ----------- USER AUTHENTICATION -----------
 
-// Register
 app.post("/register", async (req, res) => {
   const { name, phone, email, role, password } = req.body;
 
@@ -53,14 +53,13 @@ app.post("/register", async (req, res) => {
     const existing = await userCollection.findOne({ email });
     if (existing) return res.status(400).json({ message: "User already exists." });
 
-    const result = await userCollection.insertOne({ name, phone, email, role, password });
+    await userCollection.insertOne({ name, phone, email, role, password });
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
     res.status(500).json({ message: "Registration failed", error: err.message });
   }
 });
 
-// Login
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -71,6 +70,37 @@ app.post("/login", async (req, res) => {
     res.json({ message: "Login successful", user });
   } catch (err) {
     res.status(500).json({ message: "Login error", error: err.message });
+  }
+});
+
+// ----------- PROPERTY ROUTES -----------
+
+app.get("/properties", async (req, res) => {
+  try {
+    const properties = await propertyCollection.find().toArray();
+    res.json(properties);
+  } catch (err) {
+    res.status(500).send("Error fetching properties.");
+  }
+});
+
+app.post("/properties", async (req, res) => {
+  const newProperty = req.body;
+  try {
+    const result = await propertyCollection.insertOne(newProperty);
+    res.status(201).json(result);
+  } catch (err) {
+    res.status(500).send("Error adding property.");
+  }
+});
+
+app.delete("/properties/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await propertyCollection.deleteOne({ _id: new ObjectId(id) });
+    res.json(result);
+  } catch (err) {
+    res.status(500).send("Error deleting property.");
   }
 });
 

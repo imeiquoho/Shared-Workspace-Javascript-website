@@ -75,6 +75,12 @@
     <div id="resultsContainer"></div>
   </section>
 
+  <!-- ✅ Modal for Workspace Details -->
+  <div class="workspace-modal" id="workspaceModal">
+    <button class="btn-close" onclick="closeModal()">Close</button>
+    <div id="workspaceModalContent"></div>
+  </div>
+
   <!-- ✅ Scripts -->
   <script src="../scripts/script.js"></script>
   <script>
@@ -117,7 +123,7 @@
               <p><strong>Lease:</strong> ${space.term}</p>
               <p><strong>Price:</strong> $${space.price}</p>
               <p><strong>Available:</strong> ${space.available}</p>
-              <button class="btn-view" onclick="alert('📝 Feature to view more details coming soon.')">View</button>
+              <button class="btn-view" onclick='viewWorkspace(${JSON.stringify(space)})'>View</button>
               <button class="btn-submit" onclick='bookWorkspace(${JSON.stringify(space)})'>Book Now</button>
             </div>
           `;
@@ -125,6 +131,27 @@
         });
       }
     });
+
+    function viewWorkspace(workspace) {
+      const modal = document.getElementById("workspaceModal");
+      const modalContent = document.getElementById("workspaceModalContent");
+
+      modalContent.innerHTML = `
+        <h3>${workspace.type}</h3>
+        <p><strong>Property:</strong> ${workspace.property}</p>
+        <p><strong>Lease Term:</strong> ${workspace.term}</p>
+        <p><strong>Seating Capacity:</strong> ${workspace.seating}</p>
+        <p><strong>Smoking Policy:</strong> ${workspace.smoking}</p>
+        <p><strong>Price:</strong> $${workspace.price}</p>
+        <p><strong>Available From:</strong> ${workspace.available}</p>
+      `;
+
+      modal.classList.add("active");
+    }
+
+    function closeModal() {
+      document.getElementById("workspaceModal").classList.remove("active");
+    }
 
     function bookWorkspace(space) {
       const user = JSON.parse(localStorage.getItem("user"));
