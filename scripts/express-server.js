@@ -157,6 +157,7 @@ app.put("/workspaces/:id", async (req, res) => {
 
 // ----------- REVIEWS -----------
 
+//Get reviews for a workspace
 app.get("/workspaces/:id/reviews", async (req, res) => {
   const id = req.params.id;
   try {
@@ -166,7 +167,7 @@ app.get("/workspaces/:id/reviews", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch reviews" });
   }
 });
-
+// POST review for a workspace
 app.post("/workspaces/:id/reviews", async (req, res) => {
   const id = req.params.id;
   const { user, rating, comment } = req.body;

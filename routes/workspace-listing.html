@@ -229,72 +229,118 @@
   </div>
 
   <!-- ✅ Scripts -->
-  <script src="../scripts/script.js"></script>
-  <script>
-    protectPage();
-    showUserGreeting();
+<script src="../scripts/script.js"></script>
+<script>
+  protectPage();
+  showUserGreeting();
 
-    const workspaceReviews = JSON.parse(localStorage.getItem("workspaceReviews")) || {};
+  const workspaceMap = {
+    "123 Main St": "67ef0d457cba8d809aff461a",
+    "Downtown Office": "67edea9464b24388e84d0f0c"
+  };
 
-    function openReviewPopup() {
-      const selected = document.getElementById("propertySelect").value;
-      const reviews = workspaceReviews[selected] || [];
-      const list = document.getElementById("review-list");
+  async function openReviewPopup() {
+    const selected = document.getElementById("propertySelect").value;
+    const workspaceId = workspaceMap[selected];
+    const list = document.getElementById("review-list");
+    const avgDisplay = document.getElementById("avgRating");
+
+    if (!workspaceId) {
+      list.innerHTML = "<li>⚠️ Please select a valid property first.</li>";
+      avgDisplay.textContent = "N/A";
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:3000/workspaces/${workspaceId}/reviews`);
+      const reviews = await res.json();
 
       list.innerHTML = reviews.length
         ? reviews.map(r => `<li><strong>${r.user}:</strong> ${"★".repeat(r.rating)}<br>${r.comment}</li>`).join('')
         : "<li>No reviews available for this property.</li>";
 
       const avg = reviews.length ? (reviews.reduce((a, r) => a + r.rating, 0) / reviews.length).toFixed(1) : "N/A";
-      document.getElementById("avgRating").textContent = avg !== "N/A" ? `${avg} ★` : "N/A";
-
-      document.getElementById("reviewPopup").classList.add("active");
-      document.getElementById("overlay").classList.add("active");
+      avgDisplay.textContent = avg !== "N/A" ? `${avg} ★` : "N/A";
+    } catch (err) {
+      list.innerHTML = "<li>⚠️ Error loading reviews from server.</li>";
+      avgDisplay.textContent = "N/A";
     }
 
-    function closeReviewPopup() {
-      document.getElementById("reviewPopup").classList.remove("active");
-      document.getElementById("overlay").classList.remove("active");
+    document.getElementById("reviewPopup").classList.add("active");
+    document.getElementById("overlay").classList.add("active");
+  }
+
+  function closeReviewPopup() {
+    document.getElementById("reviewPopup").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
+  }
+
+  document.getElementById("reviewForm")?.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const selected = document.getElementById("propertySelect").value;
+    const workspaceId = workspaceMap[selected];
+    const reviewMsg = document.getElementById("reviewMsg");
+
+    if (!workspaceId) {
+      reviewMsg.textContent = "⚠️ Select a valid property to review.";
+      return;
     }
 
-    document.getElementById("reviewForm")?.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const selected = document.getElementById("propertySelect").value;
-      const review = {
-        user: document.getElementById("reviewUser").value,
-        rating: parseInt(document.getElementById("reviewRating").value),
-        comment: document.getElementById("reviewComment").value
-      };
+    const review = {
+      user: document.getElementById("reviewUser").value,
+      rating: parseInt(document.getElementById("reviewRating").value),
+      comment: document.getElementById("reviewComment").value
+    };
 
-      workspaceReviews[selected] = workspaceReviews[selected] || [];
-      workspaceReviews[selected].push(review);
-      localStorage.setItem("workspaceReviews", JSON.stringify(workspaceReviews));
-
-      document.getElementById("reviewMsg").textContent = "✅ Review submitted!";
-      this.reset();
-    });
-
-    const workspaceForm = document.getElementById("workspaceForm");
-    if (workspaceForm) {
-      workspaceForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const newWorkspace = {
-          property: propertySelect.value,
-          type: workspaceType.value,
-          seating: seatingCapacity.value,
-          smoking: smokingPolicy.value,
-          available: availabilityDate.value,
-          term: leaseTerm.value,
-          price: price.value,
-        };
-        const saved = JSON.parse(localStorage.getItem("workspaces")) || [];
-        saved.push(newWorkspace);
-        localStorage.setItem("workspaces", JSON.stringify(saved));
-
-        document.getElementById("workspaceMsg").textContent = "✅ Workspace added successfully!";
-        this.reset();
+    try {
+      const res = await fetch(`http://localhost:3000/workspaces/${workspaceId}/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(review)
       });
+
+      if (res.ok) {
+        reviewMsg.textContent = "✅ Review submitted!";
+        this.reset();
+      } else {
+        reviewMsg.textContent = "⚠️ Failed to submit review.";
+      }
+    } catch (err) {
+      reviewMsg.textContent = "⚠️ Error connecting to server.";
     }
-  </script>
+  });
+
+  document.getElementById("workspaceForm")?.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const workspaceMsg = document.getElementById("workspaceMsg");
+
+    const newWorkspace = {
+      property: propertySelect.value,
+      type: workspaceType.value,
+      seating: seatingCapacity.value,
+      smoking: smokingPolicy.value,
+      available: availabilityDate.value,
+      term: leaseTerm.value,
+      price: price.value
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/workspaces", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newWorkspace)
+      });
+
+      if (res.ok) {
+        workspaceMsg.textContent = "✅ Workspace added successfully!";
+        this.reset();
+      } else {
+        workspaceMsg.textContent = "⚠️ Failed to add workspace.";
+      }
+    } catch (err) {
+      workspaceMsg.textContent = "⚠️ Error connecting to server.";
+    }
+  });
+</script>
 </body>
 </html>
