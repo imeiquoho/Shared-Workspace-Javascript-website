@@ -1,11 +1,12 @@
 // workspaceData.js - Manages users, properties, workspaces, and reviews (temporary client-side)
 
-// Initialize data structures
+// Initialize data structures for holding users, properties, and workspaces
 const users = [];
 const properties = [];
 const workspaces = [];
 
 // ===== User Management =====
+// Function to add a new user
 function addUser(name, phone, email, role) {
   const user = { id: users.length + 1, name, phone, email, role };
   users.push(user);
@@ -13,6 +14,7 @@ function addUser(name, phone, email, role) {
 }
 
 // ===== Property Management =====
+// Function to add a new property
 function addProperty(ownerId, address, neighborhood, size, parking, transport) {
   const property = {
     id: properties.length + 1,
@@ -28,6 +30,7 @@ function addProperty(ownerId, address, neighborhood, size, parking, transport) {
 }
 
 // ===== Workspace Management =====
+// Function to add a new workspace linked to a property
 function addWorkspace(propertyId, type, capacity, smoking, availability, leaseTerm, price) {
   const workspace = {
     id: workspaces.length + 1,
@@ -44,6 +47,7 @@ function addWorkspace(propertyId, type, capacity, smoking, availability, leaseTe
 }
 
 // ===== Workspace Search =====
+// Function to search for workspaces based on various filters
 function searchWorkspaces(term = "", minPrice = 0, maxPrice = Infinity, availability = "") {
   return workspaces.filter((workspace) => {
     return (
@@ -56,6 +60,7 @@ function searchWorkspaces(term = "", minPrice = 0, maxPrice = Infinity, availabi
 }
 
 // ===== Owner Listings =====
+// Function to retrieve all workspaces listed by a specific property owner
 function getOwnerWorkspaces(ownerId) {
   return properties
     .filter((prop) => prop.ownerId === ownerId)
@@ -95,6 +100,7 @@ async function loadReviews(workspaceId) {
 }
 
 // 📝 Submit review (from frontend form)
+// Submits review data to MongoDB and refreshes the review display
 document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
 

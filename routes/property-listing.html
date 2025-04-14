@@ -2,10 +2,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Basic page settings -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>List Property</title>
+
+  <!-- External CSS and internal styles -->
   <link rel="stylesheet" href="../assets/styles.css" />
+
+  <!-- Inline styles specifically for property listing page -->
   <style>
     .property-list-section {
       padding: 40px 20px;
@@ -50,6 +55,7 @@
 </head>
 <body>
 
+  <!-- ✅ Navigation Bar -->
   <header>
     <nav>
       <div class="logo">
@@ -63,11 +69,13 @@
     </nav>
   </header>
 
+  <!-- ✅ Hero Section with Property Form -->
   <section class="hero">
     <div class="hero-content">
       <h2>List Your Property</h2>
       <p>Enter property details below to add to your listings.</p>
 
+      <!-- Form to list a property -->
       <form id="propertyForm">
         <label for="address">Address</label>
         <input type="text" id="address" required />
@@ -92,6 +100,7 @@
           <option value="no">No</option>
         </select>
 
+        <!-- Submit property -->
         <button type="submit" class="btn">Add Property</button>
       </form>
 
@@ -99,130 +108,148 @@
     </div>
   </section>
 
+  <!-- ✅ Section to show all listed properties -->
   <section class="property-list-section">
     <h3>Your Listed Properties</h3>
     <div id="propertyList"></div>
   </section>
 
+  <!-- ✅ Global site script -->
   <script src="../scripts/script.js"></script>
-  <script>
-    protectPage();
-    showUserGreeting();
+<script>
+  protectPage();
+  showUserGreeting();
 
-    const form = document.getElementById("propertyForm");
-    const propertyList = document.getElementById("propertyList");
+  const form = document.getElementById("propertyForm");
+  const propertyList = document.getElementById("propertyList");
 
-    async function fetchProperties() {
-      try {
-        const res = await fetch("http://localhost:3000/properties");
-        const data = await res.json();
-        localStorage.setItem("properties", JSON.stringify(data));
-        displayProperties();
-      } catch (err) {
-        console.error("Failed to fetch from server, using localStorage only");
-        displayProperties();
-      }
-    }
-
-    function displayProperties() {
-      const properties = JSON.parse(localStorage.getItem("properties")) || [];
-      propertyList.innerHTML = "";
-
-      if (properties.length === 0) {
-        propertyList.innerHTML = "<p>No properties listed yet.</p>";
-        return;
-      }
-
-      properties.forEach((prop, index) => {
-        const card = document.createElement("div");
-        card.className = "property-card";
-
-        card.innerHTML = `
-          <h4>🏢 <input type="text" value="${prop.address}" id="editAddress${index}" /></h4>
-          <p><strong>Neighborhood:</strong> <input type="text" value="${prop.neighborhood}" id="editNeighborhood${index}" /></p>
-          <p><strong>Size:</strong> <input type="number" value="${prop.squareFeet}" id="editSize${index}" /> sqft</p>
-          <p><strong>Parking:</strong> 
-            <select id="editParking${index}">
-              <option value="yes" ${prop.parking === 'yes' ? 'selected' : ''}>Yes</option>
-              <option value="no" ${prop.parking === 'no' ? 'selected' : ''}>No</option>
-            </select>
-          </p>
-          <p><strong>Public Transport:</strong> 
-            <select id="editTransport${index}">
-              <option value="yes" ${prop.publicTransport === 'yes' ? 'selected' : ''}>Yes</option>
-              <option value="no" ${prop.publicTransport === 'no' ? 'selected' : ''}>No</option>
-            </select>
-          </p>
-          <div class="card-actions">
-            <button class="btn-small" onclick="saveEdit(${index})">💾 Save</button>
-            <button class="btn-small delete" onclick="deleteProperty(${index})">🗑️ Delete</button>
-          </div>
-        `;
-
-        propertyList.appendChild(card);
-      });
-    }
-
-    form?.addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const newProperty = {
-        address: address.value,
-        neighborhood: neighborhood.value,
-        squareFeet: squareFeet.value,
-        parking: parking.value,
-        publicTransport: publicTransport.value,
-      };
-
-      const local = JSON.parse(localStorage.getItem("properties")) || [];
-      local.push(newProperty);
-      localStorage.setItem("properties", JSON.stringify(local));
-
-      try {
-        await fetch("http://localhost:3000/properties", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newProperty),
-        });
-      } catch (err) {
-        console.warn("❌ Failed to sync with MongoDB");
-      }
-
-      document.getElementById("propertyMsg").innerText = "✅ Property added successfully!";
-      this.reset();
+  async function fetchProperties() {
+    try {
+      const res = await fetch("http://localhost:3000/properties");
+      const data = await res.json();
+      localStorage.setItem("properties", JSON.stringify(data));
       displayProperties();
+    } catch (err) {
+      console.error("Failed to fetch from server, using localStorage only");
+      displayProperties();
+    }
+  }
+
+  function displayProperties() {
+    const properties = JSON.parse(localStorage.getItem("properties")) || [];
+    propertyList.innerHTML = "";
+
+    if (properties.length === 0) {
+      propertyList.innerHTML = "<p>No properties listed yet.</p>";
+      return;
+    }
+
+    properties.forEach((prop, index) => {
+      const card = document.createElement("div");
+      card.className = "property-card";
+
+      card.innerHTML = `
+        <h4>🏢 <input type="text" value="${prop.address}" id="editAddress${index}" /></h4>
+        <p><strong>Neighborhood:</strong> <input type="text" value="${prop.neighborhood}" id="editNeighborhood${index}" /></p>
+        <p><strong>Size:</strong> <input type="number" value="${prop.squareFeet}" id="editSize${index}" /> sqft</p>
+        <p><strong>Parking:</strong> 
+          <select id="editParking${index}">
+            <option value="yes" ${prop.parking === 'yes' ? 'selected' : ''}>Yes</option>
+            <option value="no" ${prop.parking === 'no' ? 'selected' : ''}>No</option>
+          </select>
+        </p>
+        <p><strong>Public Transport:</strong> 
+          <select id="editTransport${index}">
+            <option value="yes" ${prop.publicTransport === 'yes' ? 'selected' : ''}>Yes</option>
+            <option value="no" ${prop.publicTransport === 'no' ? 'selected' : ''}>No</option>
+          </select>
+        </p>
+        <div class="card-actions">
+          <button class="btn-small" onclick="saveEdit('${prop._id}', ${index})">💾 Save</button>
+          <button class="btn-small delete" onclick="deleteProperty('${prop._id}')">🗑️ Delete</button>
+        </div>
+      `;
+
+      propertyList.appendChild(card);
     });
+  }
 
-    function saveEdit(index) {
-      const properties = JSON.parse(localStorage.getItem("properties")) || [];
+  form?.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-      properties[index] = {
-        address: document.getElementById(`editAddress${index}`).value,
-        neighborhood: document.getElementById(`editNeighborhood${index}`).value,
-        squareFeet: document.getElementById(`editSize${index}`).value,
-        parking: document.getElementById(`editParking${index}`).value,
-        publicTransport: document.getElementById(`editTransport${index}`).value,
-      };
+    const newProperty = {
+      address: address.value,
+      neighborhood: neighborhood.value,
+      squareFeet: squareFeet.value,
+      parking: parking.value,
+      publicTransport: publicTransport.value,
+    };
 
-      localStorage.setItem("properties", JSON.stringify(properties));
-      displayProperties();
+    const local = JSON.parse(localStorage.getItem("properties")) || [];
+    local.push(newProperty);
+    localStorage.setItem("properties", JSON.stringify(local));
+
+    try {
+      await fetch("http://localhost:3000/properties", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newProperty),
+      });
+    } catch (err) {
+      console.warn("❌ Failed to sync with MongoDB");
     }
 
-    function deleteProperty(index) {
-      const properties = JSON.parse(localStorage.getItem("properties")) || [];
-      if (confirm("Are you sure you want to delete this property?")) {
-        properties.splice(index, 1);
-        localStorage.setItem("properties", JSON.stringify(properties));
-        displayProperties();
-      }
-    }
+    document.getElementById("propertyMsg").innerText = "✅ Property added successfully!";
+    this.reset();
+    fetchProperties(); // Reload list from server
+  });
 
-    function logoutUser() {
-      localStorage.removeItem("user");
-      window.location.href = "../index.html";
-    }
+  async function saveEdit(id, index) {
+    const updated = {
+      address: document.getElementById(`editAddress${index}`).value,
+      neighborhood: document.getElementById(`editNeighborhood${index}`).value,
+      squareFeet: document.getElementById(`editSize${index}`).value,
+      parking: document.getElementById(`editParking${index}`).value,
+      publicTransport: document.getElementById(`editTransport${index}`).value,
+    };
 
-    fetchProperties();
-  </script>
+    try {
+      await fetch(`http://localhost:3000/properties/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated),
+      });
+
+      alert("✅ Property updated successfully!");
+      fetchProperties(); // Refresh from MongoDB
+    } catch (err) {
+      console.error("❌ Update failed:", err);
+      alert("❌ Failed to update property.");
+    }
+  }
+
+  async function deleteProperty(id) {
+    if (!confirm("Are you sure you want to delete this property?")) return;
+
+    try {
+      await fetch(`http://localhost:3000/properties/${id}`, {
+        method: "DELETE",
+      });
+
+      alert("🗑️ Property deleted.");
+      fetchProperties();
+    } catch (err) {
+      console.error("❌ Delete failed:", err);
+      alert("❌ Failed to delete property.");
+    }
+  }
+
+  function logoutUser() {
+    localStorage.removeItem("user");
+    window.location.href = "../index.html";
+  }
+
+  fetchProperties();
+</script>
 </body>
 </html>

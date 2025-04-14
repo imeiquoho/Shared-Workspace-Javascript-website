@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Basic meta tags for character encoding and responsive viewport -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Bookings</title>
+  <!-- External CSS and internal styles -->
   <link rel="stylesheet" href="../assets/styles.css" />
   <style>
     .bookings-section {
@@ -61,9 +63,11 @@
 
 <header>
   <nav>
+    <!-- Logo container -->
     <div class="logo">
       <img src="../assets/images/logo.png" alt="Coworking Logo" />
     </div>
+    <!-- Main navigation links (simplified for bookings page) -->
     <ul class="nav-links">
       <li><a href="../index.html">Home</a></li>
       <li><a href="search-workspaces.html">Search</a></li>
@@ -73,34 +77,46 @@
     </ul>
   </nav>
 </header>
-
+<!-- ========== MAIN BOOKINGS CONTENT SECTION ========== -->
 <section class="bookings-section">
   <h2 style="text-align:center">Your Workspace Bookings</h2>
   <div id="bookingsList"></div>
 </section>
-
+<!-- ========== FOOTER SECTION ========== -->
 <footer>
   <p>&copy; 2025 Shared Workspace. All Rights Reserved.</p>
 </footer>
-
+<!-- External JavaScript file -->
 <script src="../scripts/script.js"></script>
+
+<!-- Inline script for bookings functionality -->
 <script>
+  // Security check and user greeting from external script
   protectPage();
   showUserGreeting();
 
+  // Get DOM elements and user data
   const bookingsList = document.getElementById("bookingsList");
   const currentUser = JSON.parse(localStorage.getItem("user"));
+
+  // Get all bookings from localStorage or empty array if none exist
   const allBookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+  // Filter user bookings and sort by available date
   const userBookings = allBookings
     .filter(b => b.bookedBy === currentUser.email)
     .sort((a, b) => new Date(a.available) - new Date(b.available));
 
+    // Display user bookings or message if none exist
   if (userBookings.length === 0) {
     bookingsList.innerHTML = "<p style='text-align:center;'>You haven't booked any workspaces yet.</p>";
   } else {
+    // Loop through user bookings and create booking cards
     userBookings.forEach((booking, index) => {
       const div = document.createElement("div");
       div.className = "booking-card";
+
+      // Booking card HTML with booking details and cancel button
       div.innerHTML = `
         <h4>${booking.type} at ${booking.property}</h4>
         <p><strong>Lease:</strong> ${booking.term}</p>
@@ -112,17 +128,27 @@
     });
   }
 
+  /**
+   * Function to cancel a booking
+   * @param {number} index - The index of the booking to cancel
+   */
   function cancelBooking(index) {
+    // Confirm cancellation with user
     if (!confirm("Are you sure you want to cancel this booking?")) return;
 
+    // Remove booking from local storage and refresh page
     let updatedBookings = JSON.parse(localStorage.getItem("bookings")) || [];
     const filtered = updatedBookings.filter((b, i) => {
       const match = b.bookedBy === currentUser.email;
       const sameIndex = i === index;
       return !(match && sameIndex);
     });
+
+    // Update local storage and refresh page
     localStorage.setItem("bookings", JSON.stringify(filtered));
     alert("✅ Booking cancelled successfully!");
+
+    // Reload page to reflect changes
     window.location.reload();
   }
 </script>

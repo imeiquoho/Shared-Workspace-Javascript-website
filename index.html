@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Basic meta tags for character encoding and responsive viewport -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CoWorking Space - Home</title>
+  <!-- Link to external stylesheet and jQuery library -->
   <link rel="stylesheet" href="assets/styles.css" />
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
 <body class="index">
 
-  <!-- ✅ Navigation -->
+  <!-- ✅ Navigation section including site logo, page links, and authentication links -->
   <header>
     <nav>
+      <!-- Site logo and navigation links -->
       <div class="logo">
         <img src="assets/images/logo.png" alt="Coworking Logo" />
       </div>
+      <!-- Main navigation links -->
       <ul class="nav-links">
         <li><a href="index.html" class="active">Home</a></li>
         <li><a href="routes/search-workspaces.html">Search Workspaces</a></li>
@@ -26,26 +30,33 @@
         <li><a href="my-bookings.html">My Bookings</a></li>
         <li><a href="routes/about.html">About</a></li>
         <li><a href="routes/contact.html">Contact</a></li>
+
+        <!-- Dynamic authentication links (shown/hidden based on login status) -->
         <li id="signupLink"><a href="routes/signup.html">Sign Up</a></li>
         <li id="signinLink"><a href="routes/signin.html">Sign In</a></li>
         <li id="logoutLink" style="display: none;"><a href="#" onclick="logoutUser()">Logout</a></li>
+
+        <!-- Display user's name if logged in -->
         <li id="userGreeting"></li>
       </ul>
+      <!-- Dark mode toggle button -->
       <button id="dark-mode-toggle">🌙</button>
     </nav>
   </header>
 
-  <!-- ✅ Hero Section -->
+  <!-- ✅ Hero Section introducing website's purpose and CTA (call-to-action) button -->
   <section class="hero" id="home">
     <div class="hero-content">
+     <!-- Main headline and call to action --> 
       <h1>Innovative Workspaces for Professionals</h1>
       <p>Flexible, affordable, and premium coworking spaces for remote teams.</p>
       <a href="routes/signup.html" class="btn">Sign Up Now</a>
     </div>
   </section>
 
-  <!-- ✅ Script -->
+   <!-- Main JavaScript file -->
   <script src="scripts/script.js"></script>
+  <!-- Inline script for user authentication handling -->
   <script>
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {

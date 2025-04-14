@@ -122,7 +122,7 @@
 </head>
 <body>
 
-  <!-- ✅ Navigation -->
+  <!-- ✅ Navigation Section-->
   <header>
     <nav>
       <div class="logo"><img src="../assets/images/logo.png" alt="Coworking Logo" /></div>
@@ -135,91 +135,112 @@
   </header>
 
   <!-- ✅ Workspace Listing Form -->
-  <section class="workspace-section">
-    <h2>List a Workspace</h2>
-    <p>Select one of your properties, then add workspace details.</p>
+<section class="workspace-section">
+  <h2>List a Workspace</h2>
+  <p>Select one of your properties, then add workspace details.</p>
 
-    <form id="workspaceForm" class="workspace-form">
-      <div class="form-group">
-        <label for="propertySelect">Select Property</label>
-        <select id="propertySelect" required>
-          <option value="">Choose Property</option>
-          <option value="123 Main St">123 Main St</option>
-          <option value="Downtown Office">Downtown Office</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="workspaceType">Workspace Type</label>
-        <select id="workspaceType" required>
-          <option value="">Select Type</option>
-          <option value="Meeting Room">Meeting Room</option>
-          <option value="Private Office">Private Office</option>
-          <option value="Open Desk">Open Desk</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="seatingCapacity">Seating Capacity</label>
-        <input type="number" id="seatingCapacity" required />
-      </div>
-
-      <div class="form-group">
-        <label for="smokingPolicy">Smoking Allowed?</label>
-        <select id="smokingPolicy" required>
-          <option value="">Select</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="availabilityDate">Availability Date</label>
-        <input type="date" id="availabilityDate" required />
-      </div>
-
-      <div class="form-group">
-        <label for="leaseTerm">Lease Term</label>
-        <select id="leaseTerm" required>
-          <option value="">Select Term</option>
-          <option value="day">Day</option>
-          <option value="week">Week</option>
-          <option value="month">Month</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="price">Price ($)</label>
-        <input type="number" id="price" required />
-      </div>
-
-      <button type="submit" class="btn-submit">Add Workspace</button>
-      <p id="workspaceMsg"></p>
-
-      <button type="button" class="btn-view" onclick="openReviewPopup()">View Reviews</button>
-    </form>
-
-    <!-- ⭐ Review Submission -->
-    <div class="submit-review">
-      <h4>Leave a Review</h4>
-      <form id="reviewForm">
-        <input type="text" id="reviewUser" placeholder="Your Name" required />
-        <select id="reviewRating" required>
-          <option value="">Select Rating</option>
-          <option value="5">★★★★★</option>
-          <option value="4">★★★★</option>
-          <option value="3">★★★</option>
-          <option value="2">★★</option>
-          <option value="1">★</option>
-        </select>
-        <textarea id="reviewComment" placeholder="Your comment" rows="3" required></textarea>
-        <button type="submit" class="btn-submit">Submit Review</button>
-      </form>
-      <p id="reviewMsg"></p>
+  <!-- Form for workspace submission -->
+  <form id="workspaceForm" class="workspace-form">
+    <div class="form-group">
+      <label for="propertySelect">Select Property</label>
+      <select id="propertySelect" required>
+        <option value="">Choose Property</option>
+        <option value="123 Main St">123 Main St</option>
+        <option value="Downtown Office">Downtown Office</option>
+      </select>
     </div>
-  </section>
 
-  <!-- ⭐ Review Popup -->
+    <!-- Workspace Type -->
+    <div class="form-group">
+      <label for="workspaceType">Workspace Type</label>
+      <select id="workspaceType" required>
+        <option value="">Select Type</option>
+        <option value="Meeting Room">Meeting Room</option>
+        <option value="Private Office">Private Office</option>
+        <option value="Open Desk">Open Desk</option>
+      </select>
+    </div>
+
+    <!-- Location input field -->
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input type="text" id="location" placeholder="Enter location" required />
+    </div>
+
+    <!-- Amenities input field -->
+    <div class="form-group">
+      <label for="amenities">Amenities (comma-separated)</label>
+      <input type="text" id="amenities" placeholder="e.g. WiFi, Parking, Kitchen" required />
+    </div>
+
+    <!-- Seating capacity input -->
+    <div class="form-group">
+      <label for="seatingCapacity">Seating Capacity</label>
+      <input type="number" id="seatingCapacity" required />
+    </div>
+
+    <!-- Smoking policy dropdown -->
+    <div class="form-group">
+      <label for="smokingPolicy">Smoking Allowed?</label>
+      <select id="smokingPolicy" required>
+        <option value="">Select</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <!-- Availability date input -->
+    <div class="form-group">
+      <label for="availabilityDate">Availability Date</label>
+      <input type="date" id="availabilityDate" required />
+    </div>
+
+    <!-- Lease term dropdown -->
+    <div class="form-group">
+      <label for="leaseTerm">Lease Term</label>
+      <select id="leaseTerm" required>
+        <option value="">Select Term</option>
+        <option value="day">Day</option>
+        <option value="week">Week</option>
+        <option value="month">Month</option>
+      </select>
+    </div>
+
+    <!-- Price input -->
+    <div class="form-group">
+      <label for="price">Price ($)</label>
+      <input type="number" id="price" required />
+    </div>
+
+    <!-- Submit button for workspace form -->
+    <button type="submit" class="btn-submit">Add Workspace</button>
+    <p id="workspaceMsg"></p>
+
+    <!-- View Reviews button -->
+    <button type="button" class="btn-view" onclick="openReviewPopup()">View Reviews</button>
+  </form>
+
+  <!-- ⭐ Review Submission Form-->
+  <div class="submit-review">
+    <h4>Leave a Review</h4>
+    <form id="reviewForm">
+      <input type="text" id="reviewUser" placeholder="Your Name" required />
+      <select id="reviewRating" required>
+        <option value="">Select Rating</option>
+        <option value="5">★★★★★</option>
+        <option value="4">★★★★</option>
+        <option value="3">★★★</option>
+        <option value="2">★★</option>
+        <option value="1">★</option>
+      </select>
+      <textarea id="reviewComment" placeholder="Your comment" rows="3" required></textarea>
+      <button type="submit" class="btn-submit">Submit Review</button>
+    </form>
+    <p id="reviewMsg"></p>
+  </div>
+</section>
+
+  <!-- ⭐ Review Popup Modal -->
   <div class="overlay" id="overlay" onclick="closeReviewPopup()"></div>
   <div class="review-popup" id="reviewPopup">
     <h4>Reviews for Selected Workspace</h4>
@@ -235,8 +256,8 @@
   showUserGreeting();
 
   const workspaceMap = {
-    "123 Main St": "67ef0d457cba8d809aff461a",
-    "Downtown Office": "67edea9464b24388e84d0f0c"
+    "123 Main St": "67fc361b80692d35432ce4a1",
+    "Downtown Office": "67fc368380692d35432ce4a2"
   };
 
   async function openReviewPopup() {
@@ -315,15 +336,16 @@
     const workspaceMsg = document.getElementById("workspaceMsg");
 
     const newWorkspace = {
-      property: propertySelect.value,
-      type: workspaceType.value,
-      seating: seatingCapacity.value,
-      smoking: smokingPolicy.value,
-      available: availabilityDate.value,
-      term: leaseTerm.value,
-      price: price.value
-    };
-
+  property: propertySelect.value,
+  type: workspaceType.value,
+  location: location.value,
+  amenities: amenities.value, 
+  seating: seatingCapacity.value,
+  smoking: smokingPolicy.value,
+  available: availabilityDate.value,
+  term: leaseTerm.value,
+  price: price.value,
+};
     try {
       const res = await fetch("http://localhost:3000/workspaces", {
         method: "POST",

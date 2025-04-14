@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ✅ Meta and Page Settings -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Services</title>
+  
+  <!-- ✅ External Stylesheet -->
   <link rel="stylesheet" href="../assets/styles.css" />
+  
+  <!-- ✅ Internal Page Styles -->
   <style>
+    /* Main services section */
     .services {
       text-align: center;
       padding: 40px 20px;
       background-color: #f9f9f9;
     }
 
+    /* Container for all service cards */
     .service-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -20,6 +27,7 @@
       animation: fadeIn 1.2s ease-in-out both;
     }
 
+    /* Each individual service card */
     .service-card {
       padding: 20px;
       background-color: white;
@@ -28,27 +36,32 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
+    /* Hover effect for service cards */
     .service-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
     }
 
+    /* Service card header and description */
     .service-card h3 {
       color: #ff5722;
       font-size: 1.4rem;
       margin-bottom: 10px;
     }
 
+    /* Description inside each service card */
     .service-card p {
       font-size: 1rem;
       color: #444;
     }
 
+    /* Animation for service cards */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* Footer section styling */
     footer {
       text-align: center;
       padding: 20px;
@@ -76,21 +89,32 @@
     </nav>
   </header>
 
+  <!-- ✅ Services Section -->
   <section class="services">
     <h2>Our Services</h2>
+
+    <!-- ✅ List of service offerings -->
     <div class="service-container">
+
+      <!-- Individual Service Card: Private Offices -->
       <div class="service-card">
         <h3>Private Offices</h3>
         <p>Secure and quiet office spaces for individuals or teams. Available by day, week, or month.</p>
       </div>
+
+      <!-- Individual Service Card: Meeting Rooms -->
       <div class="service-card">
         <h3>Shared Desks</h3>
         <p>Collaborative workspaces designed for networking and creativity, open to all members.</p>
       </div>
+
+      <!-- Individual Service Card: Meeting Rooms -->
       <div class="service-card">
         <h3>Meeting Rooms</h3>
         <p>Fully equipped rooms with projectors, whiteboards, and high-speed internet.</p>
       </div>
+
+      <!-- Individual Service Card: Event Space -->
       <div class="service-card">
         <h3>Event Space</h3>
         <p>Host your next event in our professional venue with flexible seating and support staff.</p>
@@ -98,13 +122,19 @@
     </div>
   </section>
 
+  <!-- ✅ Footer -->
   <footer>
     <p>&copy; 2025 Coworking Spaces. All Rights Reserved.</p>
   </footer>
 
+  <!-- ✅ Scripts -->
   <script src="../scripts/script.js"></script>
   <script>
+
+    // Protect the page from unauthorized access
     protectPage();
+
+    // Display user's name if logged in
     showUserGreeting();
   </script>
 </body>

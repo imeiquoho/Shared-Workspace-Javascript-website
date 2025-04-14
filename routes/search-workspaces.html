@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ✅ Meta Info & Title -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Search Workspaces</title>
+
+  <!-- ✅ External Stylesheet -->
   <link rel="stylesheet" href="../assets/styles.css" />
 </head>
 <body>
 
-  <!-- ✅ Navigation -->
+  <!-- ✅ Navigation Bar -->
   <header>
     <nav>
       <div class="logo">
@@ -28,6 +31,7 @@
       <h2>Search Workspaces</h2>
       <p>Find your ideal coworking space by customizing your search below.</p>
 
+      <!-- ✅ Search Form -->
       <form id="searchForm" class="search-form">
         <div class="form-group">
           <label for="workspaceType">Workspace Type</label>
@@ -39,6 +43,7 @@
           </select>
         </div>
 
+        <!-- Lease Term Dropdown -->
         <div class="form-group">
           <label for="leaseTerm">Lease Term</label>
           <select id="leaseTerm">
@@ -49,21 +54,25 @@
           </select>
         </div>
 
+        <!-- Min Price Input -->
         <div class="form-group">
           <label for="minPrice">Min Price</label>
           <input type="number" id="minPrice" placeholder="0" />
         </div>
 
+        <!-- Max Price Input -->
         <div class="form-group">
           <label for="maxPrice">Max Price</label>
           <input type="number" id="maxPrice" placeholder="500" />
         </div>
 
+        <!-- Availability Date Picker -->
         <div class="form-group">
           <label for="availability">Available From</label>
           <input type="date" id="availability" />
         </div>
 
+        <!-- Search Button -->
         <button type="submit" class="btn-submit">Search</button>
       </form>
     </div>
@@ -84,14 +93,32 @@
   <!-- ✅ Scripts -->
   <script src="../scripts/script.js"></script>
   <script>
+
+    // Protect this page from unauthorized access
     protectPage();
+
+    // Show logged-in user's name in navbar
     showUserGreeting();
 
-    const savedWorkspaces = JSON.parse(localStorage.getItem("workspaces")) || [];
+    // ✅ Initialize saved workspaces
+    let savedWorkspaces = []; // Will be filled from MongoDB fetch
 
+    // ✅ Fetch from MongoDB on load
+    window.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const res = await fetch("http://localhost:3000/workspaces");
+        savedWorkspaces = await res.json();
+      } catch (err) {
+        console.error("❌ Failed to fetch from MongoDB:", err);
+        savedWorkspaces = JSON.parse(localStorage.getItem("workspaces")) || [];
+      }
+    });
+
+    // Handle Search Form Submission
     document.getElementById("searchForm").addEventListener("submit", function(e) {
       e.preventDefault();
 
+      // Collect search filter values
       const type = document.getElementById("workspaceType").value;
       const lease = document.getElementById("leaseTerm").value;
       const min = document.getElementById("minPrice").value;
@@ -101,6 +128,7 @@
       const resultsContainer = document.getElementById("resultsContainer");
       resultsContainer.innerHTML = "";
 
+      // Apply filters to the workspace data
       const filtered = savedWorkspaces.filter(space => {
         return (!type || space.type === type) &&
                (!lease || space.term === lease) &&
@@ -109,9 +137,12 @@
                (!date || new Date(space.available) >= new Date(date));
       });
 
+      // If no matches, show message
       if (filtered.length === 0) {
         resultsContainer.innerHTML = "<p>No matching workspaces found.</p>";
+
       } else {
+        // Create cards for each matched workspace
         filtered.forEach(space => {
           const card = document.createElement("div");
           card.className = "workspace-card";
@@ -132,6 +163,7 @@
       }
     });
 
+    // View Workspace Details in Modal
     function viewWorkspace(workspace) {
       const modal = document.getElementById("workspaceModal");
       const modalContent = document.getElementById("workspaceModalContent");
@@ -149,6 +181,7 @@
       modal.classList.add("active");
     }
 
+    // ❌ Close Workspace Modal
     function closeModal() {
       document.getElementById("workspaceModal").classList.remove("active");
     }

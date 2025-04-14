@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ✅ Page metadata for responsiveness and character encoding -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Registration</title>
+
+    <!-- ✅ Custom JavaScript file to manage workspace data -->
     <script src="workspaceData.js"></script>
+
+    <!-- ✅ External CSS stylesheet for styling -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+    <!-- ✅ Site Header with Navigation -->
     <header>
         <nav>
+
+            <!-- Logo section -->
             <div class="logo"><img src="images/logo.png" alt="Coworking Logo"></div>
+
+            <!-- Navigation Links -->
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="signup.html">Sign Up</a></li>
@@ -19,25 +29,33 @@
         </nav>
     </header>
 
+    <!-- ✅ Registration Section -->
     <section class="register-section">
         <h2>Owner Registration</h2>
         <p>Enter your details to list your property.</p>
+
+        <!-- ✅ Owner Registration Form -->
         <form id="ownerForm" class="register-form">
+
+            <!-- Full Name Input -->
             <div class="form-group">
                 <label for="ownerName">Full Name</label>
                 <input type="text" id="ownerName" required>
             </div>
 
+            <!-- Email Input -->
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" required>
             </div>
 
+            <!-- Phone Number Input -->
             <div class="form-group">
                 <label for="phone">Phone Number</label>
                 <input type="tel" id="phone" required>
             </div>
 
+            <!-- Property Type Dropdown -->
             <div class="form-group">
                 <label for="propertyType">Property Type</label>
                 <select id="propertyType">
@@ -47,11 +65,15 @@
                 </select>
             </div>
 
+            <!-- Submit Button -->
             <button type="submit" class="btn-submit">Add</button>
         </form>
+
+        <!-- ✅ Feedback/Success/Error Message -->
         <p id="responseMessage"></p>
     </section>
 
+    <!-- ✅ Client-side logic to be handled in this external script -->
     <script src="script.js"></script>
 </body>
 </html>

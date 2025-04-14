@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Basic meta tags for character encoding and responsive viewport -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Modify Listings</title>
+
+  <!-- External styles -->
   <link rel="stylesheet" href="../assets/styles.css" />
 </head>
 <body>
 
-  <!-- ✅ Header with Navigation -->
+    <!-- ✅ Header with Navigation Links -->
   <header>
     <nav>
       <div class="logo"><img src="../assets/images/logo.png" alt="Coworking Logo" /></div>
@@ -23,13 +26,16 @@
     </nav>
   </header>
 
-  <!-- ✅ Modify Section -->
+  <!-- ✅ Modify Listings Form Section -->
   <section class="hero">
     <div class="hero-content">
       <h2>Modify Your Listings</h2>
       <p>Choose a listing type and enter the ID to update or delete your submission.</p>
 
+      <!-- Form for updating or deleting a listing -->
       <form id="modifyForm" class="workspace-form">
+
+        <!-- Dropdown for selecting the listing type -->
         <div class="form-group">
           <label for="listingType">Listing Type</label>
           <select id="listingType" required>
@@ -39,16 +45,19 @@
           </select>
         </div>
 
+        <!-- Input for entering the listing ID -->
         <div class="form-group">
           <label for="listingId">Listing ID</label>
           <input type="text" id="listingId" placeholder="Enter Listing ID" required />
         </div>
 
+        <!-- Optional input for new price -->
         <div class="form-group">
           <label for="newPrice">New Price</label>
           <input type="number" id="newPrice" placeholder="Leave blank to keep old price" />
         </div>
 
+        <!-- Optional dropdown for new lease term -->
         <div class="form-group">
           <label for="newLease">New Lease Term</label>
           <select id="newLease">
@@ -59,49 +68,87 @@
           </select>
         </div>
 
+        <!-- Submit button for update -->
         <button type="submit" class="btn-submit">Update Listing</button>
+
+        <!-- Button to delete the listing -->
         <button type="button" class="btn-submit" style="background-color: #c62828; margin-top: 10px;" onclick="deleteListing()">Delete Listing</button>
       </form>
 
+      <!-- Message to display the result of the update or delete operation -->
       <p id="modifyMsg"></p>
     </div>
   </section>
 
-  <!-- ✅ Script -->
+  <!-- ✅ Script for handling form submission and displaying messages -->
   <script src="../scripts/script.js"></script>
   <script>
     protectPage();
     showUserGreeting();
 
-    document.getElementById("modifyForm").addEventListener("submit", function (e) {
+    // Handle form submission to update a workspace or property
+    document.getElementById("modifyForm").addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const type = document.getElementById("listingType").value;
-      const id = document.getElementById("listingId").value;
-      const newPrice = document.getElementById("newPrice").value;
-      const newLease = document.getElementById("newLease").value;
+      const id = document.getElementById("listingId").value.trim();
+      const newPrice = document.getElementById("newPrice").value.trim();
+      const newLease = document.getElementById("newLease").value.trim();
 
       if (!type || !id) {
         document.getElementById("modifyMsg").textContent = "Please select a listing type and provide the listing ID.";
         return;
       }
 
-      document.getElementById("modifyMsg").textContent =
-        `✅ ${type.toUpperCase()} with ID "${id}" updated.` +
-        `${newPrice ? " New Price: $" + newPrice + "." : ""}` +
-        `${newLease ? " New Lease: " + newLease + "." : ""}`;
+      // Build the update payload
+      const updates = {};
+      if (newPrice) updates.price = parseFloat(newPrice);
+      if (newLease) updates.term = newLease;
+
+      try {
+        const res = await fetch(`http://localhost:3000/${type}s/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updates),
+        });
+
+        if (res.ok) {
+          document.getElementById("modifyMsg").textContent = `✅ ${type.toUpperCase()} with ID \"${id}\" updated.`;
+        } else {
+          const error = await res.json();
+          document.getElementById("modifyMsg").textContent = `❌ Failed to update: ${error.error || 'Unknown error.'}`;
+        }
+      } catch (err) {
+        document.getElementById("modifyMsg").textContent = `❌ Error: ${err.message}`;
+      }
     });
 
-    function deleteListing() {
+    // Function to delete a workspace or property by ID
+    async function deleteListing() {
       const type = document.getElementById("listingType").value;
-      const id = document.getElementById("listingId").value;
+      const id = document.getElementById("listingId").value.trim();
 
       if (!type || !id) {
         document.getElementById("modifyMsg").textContent = "Please select a listing type and provide the ID.";
         return;
       }
 
-      document.getElementById("modifyMsg").textContent = `❌ ${type.toUpperCase()} with ID "${id}" has been deleted.`;
+      if (!confirm(`Are you sure you want to delete this ${type}?`)) return;
+
+      try {
+        const res = await fetch(`http://localhost:3000/${type}s/${id}`, {
+          method: "DELETE",
+        });
+
+        if (res.ok) {
+          document.getElementById("modifyMsg").textContent = `❌ ${type.toUpperCase()} with ID \"${id}\" has been deleted.`;
+        } else {
+          const error = await res.json();
+          document.getElementById("modifyMsg").textContent = `❌ Failed to delete: ${error.error || 'Unknown error.'}`;
+        }
+      } catch (err) {
+        document.getElementById("modifyMsg").textContent = `❌ Network Error: ${err.message}`;
+      }
     }
   </script>
 </body>

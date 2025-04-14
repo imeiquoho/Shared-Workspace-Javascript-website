@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta settings for responsiveness and encoding -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gallery</title>
+
+  <!-- Link to the external stylesheet -->
   <link rel="stylesheet" href="../assets/styles.css" />
+
+  <!-- Internal CSS for styling -->
   <style>
+    /* Main gallery section styling */
     .gallery {
       text-align: center;
       padding: 40px 20px;
     }
 
+    /* Container to arrange images in a responsive grid */
     .gallery-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -18,6 +26,7 @@
       padding: 20px;
     }
 
+    /* Individual image containers with hover effect */
     .gallery-container figure {
       position: relative;
       overflow: hidden;
@@ -26,6 +35,7 @@
       transition: transform 0.3s ease-in-out;
     }
 
+    /* Images fill the container and zoom on hover */
     .gallery-container img {
       width: 100%;
       height: auto;
@@ -33,10 +43,12 @@
       transition: transform 0.4s ease-in-out;
     }
 
+    /* Image zoom effect */
     .gallery-container figure:hover img {
       transform: scale(1.1);
     }
 
+    /* Caption hidden by default, appears on hover */
     .gallery-container figcaption {
       position: absolute;
       bottom: 0;
@@ -50,10 +62,12 @@
       transition: opacity 0.3s ease-in-out;
     }
 
+    /* Show caption on hover */
     .gallery-container figure:hover figcaption {
       opacity: 1;
     }
 
+    /* Full-screen modal to preview image */
     .lightbox {
       position: fixed;
       top: 0;
@@ -67,12 +81,14 @@
       z-index: 1000;
     }
 
+    /* Image in lightbox view */
     .lightbox img {
       max-width: 90vw;
       max-height: 80vh;
       border-radius: 8px;
     }
 
+    /* Show lightbox when active */
     .lightbox.active {
       display: flex;
     }
@@ -80,7 +96,7 @@
 </head>
 <body>
 
-  <!-- ✅ Header -->
+  <!-- ✅ Header navigation -->
   <header>
     <nav>
       <div class="logo">
@@ -98,10 +114,11 @@
     </nav>
   </header>
 
-  <!-- 🖼️ Gallery Section -->
+  <!-- Image Gallery Section -->
   <section class="gallery">
     <h2>Our Gallery</h2>
     <div class="gallery-container">
+      <!-- Each image is wrapped in a figure with a caption and click event -->
       <figure>
         <img src="../assets/images/coworking-1.jpg" alt="Modern Office Space" onclick="openLightbox(this.src)">
         <figcaption>Modern Office Space</figcaption>
@@ -117,14 +134,15 @@
     </div>
   </section>
 
-  <!-- 🔍 Lightbox -->
+  <!-- 🔍 Lightbox Modal for Enlarged Preview -->
   <div class="lightbox" id="lightbox">
     <img src="" alt="Enlarged Image" id="lightbox-img">
   </div>
 
-  <!-- ✅ Scripts -->
+  <!-- ✅ JavaScript for Lightbox and User Greeting -->
   <script src="../scripts/script.js"></script>
   <script>
+    // Function to open lightbox with the clicked image source
     function openLightbox(src) {
       const lightbox = document.getElementById("lightbox");
       const lightboxImg = document.getElementById("lightbox-img");
@@ -136,9 +154,11 @@
       this.classList.remove("active");
     });
 
+    // Protect the page and show user greeting
     protectPage();
     showUserGreeting();
 
+    // Logout and redirect to homepage
     function logoutUser() {
       localStorage.removeItem("user");
       window.location.href = "../index.html";

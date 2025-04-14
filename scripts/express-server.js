@@ -1,19 +1,26 @@
-// ==============================
-// express-server.js (Auth + Properties + Workspaces + Reviews)
-// ==============================
+// ============================== 
+// express-server.js (Auth + Properties + Workspaces + Reviews) 
+// ============================== 
+
+// Importing necessary libraries and initializing Express server
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
+// Load environment variables from .env file
 dotenv.config();
-const app = express();
-app.use(cors());
-app.use(express.json());
 
+// Initialize Express app
+const app = express();
+app.use(cors()); // Enable Cross-Origin Resource Sharing (CORS)
+app.use(express.json()); // Middleware to parse JSON requests
+
+// Define port and MongoDB URI
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 
+// MongoDB Client Setup
 const client = new MongoClient(MONGO_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -22,8 +29,10 @@ const client = new MongoClient(MONGO_URI, {
   },
 });
 
+// Database and collections
 let db, userCollection, workspaceCollection, propertyCollection;
 
+// Function to establish MongoDB connection
 async function connectMongoDB() {
   try {
     await client.connect();
@@ -40,12 +49,14 @@ connectMongoDB();
 
 // ===================== ROUTES =====================
 
+// Basic API check
 app.get("/", (req, res) => {
   res.send("Welcome to the Shared Workspace Web App API with MongoDB!");
 });
 
 // ----------- USER AUTHENTICATION -----------
 
+// User Registration
 app.post("/register", async (req, res) => {
   const { name, phone, email, role, password } = req.body;
 
@@ -60,10 +71,12 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// User Login
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    //Authenticate user credentials
     const user = await userCollection.findOne({ email, password });
     if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
@@ -75,6 +88,7 @@ app.post("/login", async (req, res) => {
 
 // ----------- PROPERTY ROUTES -----------
 
+// Get all properties
 app.get("/properties", async (req, res) => {
   try {
     const properties = await propertyCollection.find().toArray();
@@ -84,6 +98,7 @@ app.get("/properties", async (req, res) => {
   }
 });
 
+// Add a new property
 app.post("/properties", async (req, res) => {
   const newProperty = req.body;
   try {
@@ -94,6 +109,7 @@ app.post("/properties", async (req, res) => {
   }
 });
 
+// Delete a property by ID
 app.delete("/properties/:id", async (req, res) => {
   const id = req.params.id;
   try {
@@ -106,6 +122,7 @@ app.delete("/properties/:id", async (req, res) => {
 
 // ----------- WORKSPACE ROUTES -----------
 
+// Get all workspaces
 app.get("/workspaces", async (req, res) => {
   try {
     const workspaces = await workspaceCollection.find().toArray();
@@ -115,8 +132,31 @@ app.get("/workspaces", async (req, res) => {
   }
 });
 
+// Add a new workspace (safely handling optional amenities)
 app.post("/workspaces", async (req, res) => {
-  const newWorkspace = req.body;
+  const { property, type, location, amenities, seating, smoking, available, term, price } = req.body;
+
+  // Validate and safely handle amenities field
+  let amenitiesArray = [];
+  if (amenities && typeof amenities === 'string') {
+    amenitiesArray = amenities.split(",").map(a => a.trim());
+  }
+
+  // Prepare new workspace object
+  const newWorkspace = {
+    property,
+    type,
+    location,
+    amenities: amenitiesArray, // Safely handled amenities
+    seating,
+    smoking,
+    available,
+    term,
+    price,
+    reviews: [], // Initialize reviews as empty array
+  };
+
+  // Insert the workspace into MongoDB
   try {
     const result = await workspaceCollection.insertOne(newWorkspace);
     res.status(201).json(result);
@@ -125,6 +165,7 @@ app.post("/workspaces", async (req, res) => {
   }
 });
 
+// Delete a workspace by ID
 app.delete("/workspaces/:id", async (req, res) => {
   const id = req.params.id;
   try {
@@ -135,6 +176,7 @@ app.delete("/workspaces/:id", async (req, res) => {
   }
 });
 
+// Update workspace by ID
 app.put("/workspaces/:id", async (req, res) => {
   const id = req.params.id;
   const updatedWorkspace = req.body;
@@ -155,9 +197,9 @@ app.put("/workspaces/:id", async (req, res) => {
   }
 });
 
-// ----------- REVIEWS -----------
+// ----------- REVIEWS ROUTES -----------
 
-//Get reviews for a workspace
+// Get reviews for a workspace
 app.get("/workspaces/:id/reviews", async (req, res) => {
   const id = req.params.id;
   try {
@@ -167,7 +209,8 @@ app.get("/workspaces/:id/reviews", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch reviews" });
   }
 });
-// POST review for a workspace
+
+// Post a review for a workspace
 app.post("/workspaces/:id/reviews", async (req, res) => {
   const id = req.params.id;
   const { user, rating, comment } = req.body;
@@ -183,7 +226,7 @@ app.post("/workspaces/:id/reviews", async (req, res) => {
 });
 
 // ===================== START SERVER =====================
-
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://127.0.0.1:${PORT}`);
 });
